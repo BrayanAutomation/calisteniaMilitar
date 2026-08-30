@@ -1,0 +1,430 @@
+<title>Protocolo 21</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#eae3ce; --surface:#f7f2e5; --surface-2:#ddd4b4; --ink:#2a2418; --ink-dim:#6f6650;
+    --line:#c7bd9a; --accent:#c2661b; --accent-ink:#fff8ec;
+    --type-fuerza:#5f7248; --type-hiit:#a13f2b; --type-mixto:#3f5568;
+    --shadow:0 1px 0 rgba(30,24,10,.08);
+    --font-display:'Big Shoulders Stencil',Impact,'Arial Narrow',sans-serif;
+    --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#121108; --surface:#1c1a11; --surface-2:#262319; --ink:#ece4cf; --ink-dim:#a89c7c;
+      --line:#3b3624; --accent:#e2952f; --accent-ink:#1a1508;
+      --type-fuerza:#8ca36c; --type-hiit:#d6684a; --type-mixto:#7f9cb3;
+      --shadow:0 1px 0 rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121108; --surface:#1c1a11; --surface-2:#262319; --ink:#ece4cf; --ink-dim:#a89c7c;
+    --line:#3b3624; --accent:#e2952f; --accent-ink:#1a1508;
+    --type-fuerza:#8ca36c; --type-hiit:#d6684a; --type-mixto:#7f9cb3;
+    --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-tap-highlight-color:transparent;}
+  h1,h2,h3{margin:0;text-wrap:balance;}
+  button{font-family:inherit;}
+  .btn:focus-visible,button:focus-visible,.day-card:focus-visible,.check-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .app{max-width:560px;margin:0 auto;min-height:100dvh;position:relative;padding-bottom:40px;}
+
+  /* ---- top bar ---- */
+  .topbar{position:sticky;top:0;z-index:20;background:var(--bg);padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 14px;border-bottom:1px solid var(--line);}
+  .brand-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .brand{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,7.5vw,30px);letter-spacing:.01em;text-transform:uppercase;line-height:.95;}
+  .brand em{display:block;font-style:normal;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-dim);font-weight:400;text-transform:uppercase;margin-top:3px;}
+  .operator-btn{background:var(--surface);border:1px solid var(--line);padding:7px 10px;display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;color:var(--ink);cursor:pointer;flex-shrink:0;}
+  .operator-btn .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .segbar{display:flex;gap:3px;margin-top:14px;}
+  .segbar i{flex:1;height:7px;border-radius:1px;background:var(--surface-2);border:1px solid var(--line);}
+  .segbar i.done{background:var(--accent);border-color:var(--accent);}
+  .stats-row{display:flex;gap:18px;margin-top:9px;font-family:var(--font-mono);font-size:11.5px;color:var(--ink-dim);}
+  .stats-row b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+
+  .tip-bar{margin:14px 16px 0;padding:10px 12px;background:var(--surface-2);border:1px dashed var(--line);font-size:12.5px;color:var(--ink-dim);display:flex;gap:10px;align-items:flex-start;line-height:1.4;}
+  .tip-bar button{margin-left:auto;background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;line-height:1;padding:0 2px;flex-shrink:0;}
+
+  /* ---- day list ---- */
+  .day-list{display:flex;flex-direction:column;gap:11px;padding:16px;}
+  .day-card{position:relative;display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--line);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);text-align:left;padding:0;box-shadow:var(--shadow);width:100%;cursor:pointer;}
+  .day-card:active{transform:translateY(1px);}
+  .day-card .type-bar{width:6px;flex-shrink:0;}
+  .day-card .body{flex:1;padding:11px 14px;display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .row1{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+  .day-num{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--ink-dim);line-height:1;}
+  .day-card.done .day-num{color:var(--accent);}
+  .protocol-name{font-weight:600;font-size:14.5px;line-height:1.25;}
+  .meta-row{display:flex;gap:9px;align-items:center;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-dim);flex-wrap:wrap;}
+  .type-chip{font-size:9.5px;font-weight:600;letter-spacing:.06em;padding:2px 6px;border-radius:2px;color:#fff8ec;}
+  .diff-dots{display:inline-flex;gap:2px;}
+  .diff-dots i{width:5px;height:5px;border-radius:50%;background:var(--line);display:block;}
+  .diff-dots i.on{background:var(--ink-dim);}
+  .done-badge{position:absolute;top:8px;right:10px;font-family:var(--font-mono);font-size:9.5px;color:var(--accent);letter-spacing:.08em;}
+
+  /* ---- sheet (day detail) ---- */
+  .sheet{position:fixed;inset:0;background:var(--bg);z-index:50;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);visibility:hidden;}
+  .sheet.open{transform:translateY(0);visibility:visible;}
+  @media (prefers-reduced-motion: reduce){.sheet{transition:none;}}
+  .sheet-header{padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 16px;border-bottom:1px solid var(--line);background:var(--surface);flex-shrink:0;}
+  .back-btn{background:none;border:none;color:var(--ink);font-family:var(--font-mono);font-size:12.5px;letter-spacing:.05em;display:flex;align-items:center;gap:6px;padding:4px 0;cursor:pointer;text-transform:uppercase;}
+  .sheet-daynum{font-family:var(--font-display);font-size:clamp(38px,15vw,52px);font-weight:800;line-height:.9;margin-top:6px;}
+  .sheet-protocol{font-weight:600;font-size:17px;margin-top:2px;}
+  .sheet-badges{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap;}
+  .badge{font-family:var(--font-mono);font-size:10.5px;padding:3px 8px;border:1px solid var(--line);color:var(--ink-dim);}
+  .badge.type{color:#fff8ec;border-color:transparent;}
+  .sheet-body{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;}
+  .brief-card{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);padding:12px 14px;font-size:13.5px;color:var(--ink-dim);line-height:1.5;margin-bottom:18px;}
+
+  .ex-list{display:flex;flex-direction:column;gap:9px;}
+  .ex-item{background:var(--surface);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:9px;}
+  .ex-item.checked{border-color:var(--accent);}
+  .ex-top{display:flex;gap:10px;align-items:flex-start;}
+  .ex-idx{font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);padding-top:2px;flex-shrink:0;width:24px;font-variant-numeric:tabular-nums;}
+  .ex-name-row{flex:1;min-width:0;}
+  .ex-name{font-weight:600;font-size:14.5px;}
+  .ex-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+  .ex-tag{font-family:var(--font-mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-dim);border:1px solid var(--line);border-radius:2px;padding:1px 5px;}
+  .ex-stats{display:flex;gap:14px;font-family:var(--font-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink-dim);padding-left:34px;}
+  .ex-stats b{color:var(--ink);font-weight:600;}
+  .ex-cue{font-size:12.5px;color:var(--ink-dim);line-height:1.45;padding-left:34px;}
+  .ex-actions{display:flex;gap:10px;padding-left:34px;align-items:center;}
+  .check-toggle{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;cursor:pointer;user-select:none;background:none;border:none;color:var(--ink);padding:2px 0;}
+  .check-box{width:20px;height:20px;border:1.5px solid var(--line);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .check-toggle.on .check-box{background:var(--accent);border-color:var(--accent);}
+  .check-toggle.on .check-box::after{content:'\2713';color:var(--accent-ink);font-size:12px;line-height:1;}
+  .video-btn{margin-left:auto;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);font-family:var(--font-mono);font-size:11px;padding:7px 10px;display:flex;align-items:center;gap:6px;cursor:pointer;}
+  .video-btn svg{width:10px;height:10px;fill:var(--ink);}
+  .no-video-note{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-dim);opacity:.75;margin-left:auto;}
+
+  /* ---- modals ---- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(15,12,4,.72);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-card{background:var(--surface);border:1px solid var(--line);max-width:420px;width:100%;position:relative;}
+  .modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .video-modal-inner{padding:14px;}
+  .video-title{font-weight:600;font-size:14.5px;margin-bottom:10px;padding-right:20px;}
+  .viewfinder{position:relative;background:#080703;aspect-ratio:9/16;max-height:66vh;width:100%;}
+  .viewfinder video{width:100%;height:100%;object-fit:contain;display:block;}
+  .vf-corner{position:absolute;width:16px;height:16px;border-color:var(--accent);pointer-events:none;}
+  .vf-tl{top:6px;left:6px;border-top:2px solid;border-left:2px solid;}
+  .vf-tr{top:6px;right:6px;border-top:2px solid;border-right:2px solid;}
+  .vf-bl{bottom:6px;left:6px;border-bottom:2px solid;border-left:2px solid;}
+  .vf-br{bottom:6px;right:6px;border-bottom:2px solid;border-right:2px solid;}
+  .video-cue{font-size:12.5px;color:var(--ink-dim);margin-top:10px;line-height:1.45;}
+
+  .settings-inner{padding:20px;}
+  .settings-inner h2{font-family:var(--font-display);font-size:20px;text-transform:uppercase;margin-bottom:14px;}
+  .field-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);display:block;margin-bottom:6px;}
+  .field-input{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);padding:10px 12px;font-family:var(--font-body);font-size:14px;margin-bottom:16px;}
+  .field-note{font-size:11.5px;color:var(--ink-dim);margin-top:-8px;margin-bottom:16px;line-height:1.4;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:2px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:600;font-size:13px;cursor:pointer;width:100%;}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+</style>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand-row">
+      <div>
+        <h1 class="brand">Protocolo 21<em>Calistenia de campo</em></h1>
+      </div>
+      <button class="operator-btn" id="operatorBtn" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="operatorName">Recluta</span>
+      </button>
+    </div>
+    <div class="segbar" id="segbar" role="img" aria-label="Progreso de los 21 días"></div>
+    <div class="stats-row">
+      <span><b id="statDone">0</b>/21 días completados</span>
+      <span><b id="statMin">0</b> min entrenados</span>
+    </div>
+  </header>
+
+  <div class="tip-bar" id="tipBar" hidden>
+    <span id="tipText"></span>
+    <button type="button" id="tipClose" aria-label="Cerrar aviso">&times;</button>
+  </div>
+
+  <main class="day-list" id="dayList"></main>
+</div>
+
+<!-- Day detail sheet -->
+<section class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet-header">
+    <button class="back-btn" id="backBtn" type="button">&larr; Volver al mapa</button>
+    <div class="sheet-daynum" id="sheetDayNum"></div>
+    <div class="sheet-protocol" id="sheetProtocol"></div>
+    <div class="sheet-badges" id="sheetBadges"></div>
+  </div>
+  <div class="sheet-body">
+    <div class="brief-card" id="sheetBrief"></div>
+    <div class="ex-list" id="exList"></div>
+  </div>
+</section>
+
+<!-- Video modal -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-card">
+    <button class="modal-close" id="videoClose" aria-label="Cerrar video">&times;</button>
+    <div class="video-modal-inner">
+      <div class="video-title" id="videoTitle"></div>
+      <div class="viewfinder">
+        <video id="videoEl" playsinline webkit-playsinline controls preload="none"></video>
+        <span class="vf-corner vf-tl"></span><span class="vf-corner vf-tr"></span>
+        <span class="vf-corner vf-bl"></span><span class="vf-corner vf-br"></span>
+      </div>
+      <div class="video-cue" id="videoCue"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-card">
+    <button class="modal-close" id="settingsClose" aria-label="Cerrar">&times;</button>
+    <div class="settings-inner">
+      <h2>Ficha de operador</h2>
+      <label class="field-label" for="nameInput">Nombre</label>
+      <input class="field-input" id="nameInput" type="text" maxlength="24" placeholder="Recluta">
+      <p class="field-note">Se guarda solo en este teléfono. Si cambias de navegador o de equipo, empieza de cero.</p>
+      <button class="btn primary" id="saveSettings" type="button">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var DATA = {"exercises":{"bodyweight-squat":{"slug":"bodyweight-squat","name":"Bodyweight Squat","video":"videos/Bodyweight%20Squats.mp4","tags":["piernas","glúteos"],"cue":"Pies al ancho de hombros, baja como si te sentaras en una silla y empuja desde los talones al subir."},"alternating-reverse-lunge":{"slug":"alternating-reverse-lunge","name":"Alternating Reverse Lunge","video":"videos/Alternating%20Reverse%20Lunge.mp4","tags":["piernas","equilibrio"],"cue":"Paso largo hacia atrás, rodilla trasera casi al piso, vuelve al centro y alterna de pierna."},"assisted-pistol-squat":{"slug":"assisted-pistol-squat","name":"Assisted Pistol Squat","video":"videos/Assisted%20Pistol%20Squat.mp4","tags":["piernas","equilibrio"],"cue":"Sujétate de un punto de apoyo y baja en una pierna manteniendo la otra extendida al frente."},"wall-sit":{"slug":"wall-sit","name":"Wall Sit","video":"videos/Wallsit.mp4","tags":["piernas","resistencia"],"cue":"Espalda pegada a la pared, rodillas a 90°, sostén la posición sin apoyar las manos."},"glute-bridge":{"slug":"glute-bridge","name":"Glute Bridge","video":"videos/Glute%20Bridge.mp4","tags":["glúteos","isquios"],"cue":"Boca arriba, rodillas dobladas, empuja con los talones y aprieta el glúteo arriba."},"high-knees":{"slug":"high-knees","name":"High Knees","video":"videos/High%20Knees.mp4","tags":["cardio","piernas"],"cue":"Trota en el sitio llevando las rodillas a la altura de la cadera lo más rápido que puedas."},"diamond-push-up":{"slug":"diamond-push-up","name":"Diamond Push Up","video":"videos/Diamond%20Pushup.mp4","tags":["tríceps","pecho"],"cue":"Manos juntas bajo el pecho formando un diamante, baja controlado y empuja fuerte."},"lateral-step-march":{"slug":"lateral-step-march","name":"Lateral Step March","video":"videos/lateral%20step%20march.mp4","tags":["cardio","piernas"],"cue":"Da pasos amplios de lado a lado marcando el ritmo con los brazos."},"jumping-jacks":{"slug":"jumping-jacks","name":"Jumping Jacks","video":"videos/Jump%20jacks.mp4","tags":["cardio","full body"],"cue":"Salta abriendo piernas y brazos a la vez, y cierra al aterrizar."},"jump-squat":{"slug":"jump-squat","name":"Jump Squat","video":"videos/Jump%20Squats.mp4","tags":["piernas","potencia"],"cue":"Baja a sentadilla y explota hacia arriba en un salto; aterriza suave y repite."},"burpee":{"slug":"burpee","name":"Burpee","video":"videos/Burpees.mp4","tags":["full body","cardio"],"cue":"De pie a plancha, un push-up opcional, vuelve a pie y remata con un salto."},"mountain-climbers":{"slug":"mountain-climbers","name":"Mountain Climbers","video":"videos/Mountain%20Climbers%20-%20Trim.mp4","tags":["core","cardio"],"cue":"En plancha alta, lleva una rodilla al pecho y alterna rápido sin perder la cadera."},"push-up":{"slug":"push-up","name":"Push-Up","video":"videos/Push%20Ups.mp4","tags":["pecho","tríceps"],"cue":"Manos al ancho de hombros, baja el pecho casi al piso y empuja en línea recta."},"walkout-to-plank":{"slug":"walkout-to-plank","name":"Walkout to Plank","video":"videos/Plank%20Walk%20Outs.mp4","tags":["full body","core"],"cue":"De pie, camina con las manos hasta plancha alta y regresa caminando a los pies."},"front-plank":{"slug":"front-plank","name":"Front Plank","video":null,"tags":["core","hombros"],"cue":"Antebrazos y puntas de pie en el piso, cuerpo en línea recta sin dejar caer la cadera."},"side-plank":{"slug":"side-plank","name":"Side Plank","video":"videos/Side%20Plank.mp4","tags":["core","oblicuos"],"cue":"Apoya un antebrazo y el borde del pie, eleva la cadera y sostén el cuerpo en línea."},"plank-to-push-up":{"slug":"plank-to-push-up","name":"Plank to Push-Up","video":"videos/Plank%20to%20Push%20Up.mp4","tags":["core","hombros"],"cue":"Alterna entre plancha en antebrazos y plancha alta apoyando una mano a la vez."},"shoulder-tap-plank":{"slug":"shoulder-tap-plank","name":"Shoulder Tap Plank","video":"videos/Plank%20Shoulder%20Taps.mp4","tags":["core","hombros"],"cue":"En plancha alta, toca el hombro contrario con cada mano sin mover la cadera."},"plank-with-arm-reach":{"slug":"plank-with-arm-reach","name":"Plank with Arm Reach","video":"videos/Plank%20Up.mp4","tags":["core","estabilidad"],"cue":"En plancha alta, extiende un brazo al frente y alterna manteniendo el tronco quieto."},"hollow-body-hold":{"slug":"hollow-body-hold","name":"Hollow Body Hold","video":"videos/Hollow%20Hold.mp4","tags":["core"],"cue":"Boca arriba, eleva hombros y piernas del piso pegando la zona baja de la espalda al suelo."},"bird-dog":{"slug":"bird-dog","name":"Bird Dog","video":"videos/Bird%20Dog.mp4","tags":["core","estabilidad"],"cue":"En cuatro apoyos, extiende brazo y pierna opuestos sin mover la espalda, alterna lados."},"superman":{"slug":"superman","name":"Superman","video":"videos/Superman%20Hold.mp4","tags":["espalda","glúteos"],"cue":"Boca abajo, eleva brazos y piernas a la vez apretando espalda y glúteos."},"sumo-squat":{"slug":"sumo-squat","name":"Sumo Squat","video":"videos/sumo-squat.mp4","tags":[],"cue":""},"cossack-squat":{"slug":"cossack-squat","name":"Cossack Squat","video":"videos/COSSACK%20SQUATS.mp4","tags":["piernas"],"cue":"Pies muy abiertos, lleva el peso a un lado flexionando esa rodilla con la otra pierna extendida."},"star-jump":{"slug":"star-jump","name":"Star Jump","video":"videos/star%20jump.mp4","tags":["cardio"],"cue":"Desde sentadilla, salta abriendo brazos y piernas como una estrella y aterriza suave."},"marine-squat-thrust":{"slug":"marine-squat-thrust","name":"Marine Squat Thrust","video":"videos/thrust.mp4","tags":["full body","cardio"],"cue":"De sentadilla, lanza los pies atrás a plancha y regresa de un salto a sentadilla."},"bicycle-crunch":{"slug":"bicycle-crunch","name":"Bicycle Crunch","video":"videos/BYCYLES.mp4","tags":["core"],"cue":"Boca arriba, lleva el codo a la rodilla contraria alternando en un movimiento de pedaleo."},"leg-raise":{"slug":"leg-raise","name":"Leg Raise","video":"videos/leg%20raises.mp4","tags":["core"],"cue":"Boca arriba, piernas extendidas, sube y baja sin que la espalda baja se despegue del piso."},"pike-push-up":{"slug":"pike-push-up","name":"Pike Push-Up","video":"videos/pike-pushup.mp4","tags":["hombros","tríceps"],"cue":"En V invertida, baja la cabeza hacia el piso doblando los codos y empuja de vuelta."},"russian-twist":{"slug":"russian-twist","name":"Russian Twist","video":"videos/Russian%20Twist.mp4","tags":["core","oblicuos"],"cue":"Sentado con el tronco inclinado atrás, gira de lado a lado tocando el piso con las manos."},"v-up":{"slug":"v-up","name":"V-Up","video":"videos/vups.mp4","tags":["core"],"cue":"Boca arriba, sube brazos y piernas rectos a la vez formando una V y baja controlado."},"hindu-push-up":{"slug":"hindu-push-up","name":"Hindu Push-Up","video":"videos/HINDU.mp4","tags":["full body"],"cue":"Desde perro boca abajo, desliza el pecho hacia adelante y termina mirando hacia arriba."},"crunch":{"slug":"crunch","name":"Crunch","video":null,"tags":["core"],"cue":"Boca arriba, rodillas dobladas, sube la espalda alta sin tirar del cuello."},"reverse-crunch":{"slug":"reverse-crunch","name":"Reverse Crunch","video":"videos/reverse%20crunch.mp4","tags":["core"],"cue":"Boca arriba, lleva las rodillas hacia el pecho elevando la cadera del piso."},"hanging-knee-raise":{"slug":"hanging-knee-raise","name":"Hanging Knee Raise","video":"videos/Hanging%20Knee%20Raise.mp4","tags":["core","agarre"],"cue":"Colgado de la barra, sube las rodillas al pecho sin balancear el cuerpo."},"dead-hang":{"slug":"dead-hang","name":"Dead Hang","video":"videos/dead-hang_zaeveo.mp4","tags":["espalda","agarre"],"cue":"Cuélgate de la barra con brazos extendidos y hombros activos; sostén la posición."},"inverted-row":{"slug":"inverted-row","name":"Inverted Row","video":"videos/Pronated%20Body%20Row.mp4","tags":["espalda","bíceps"],"cue":"Cuerpo inclinado bajo una barra o mesa firme; tira del pecho hacia el punto de apoyo."},"negative-pull-up":{"slug":"negative-pull-up","name":"Negative Pull-Up","video":"videos/Negative%20Pull%20Up.mp4","tags":["espalda","bíceps"],"cue":"Empieza con la barbilla sobre la barra y baja lo más lento posible."},"dead-bug":{"slug":"dead-bug","name":"Dead Bug","video":"videos/deadbug.mp4","tags":["core","estabilidad"],"cue":"Boca arriba, brazos y rodillas a 90°, extiende el lado contrario sin arquear la espalda."},"assisted-bulgarian-split-squat":{"slug":"assisted-bulgarian-split-squat","name":"Assisted Bulgarian Split Squat","video":null,"tags":["piernas","equilibrio"],"cue":"Pie trasero apoyado en una silla o banco; baja controlando la rodilla delantera."}},"days":[{"day":1,"protocol":"PROTOCOLO ESTÁNDAR","duration":30,"type":"FUERZA","difficulty":1,"brief":"Primer contacto con el programa: técnica básica y activación de todo el cuerpo antes de subir la carga.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":40},{"slug":"diamond-push-up","series":3,"reps":"6-8","rest":45},{"slug":"front-plank","series":3,"reps":"20–30 s","rest":40}]},{"day":2,"protocol":"PROTOCOLO MOVILIZACIÓN","duration":28,"type":"MIXTO","difficulty":1,"brief":"Trabajo de bajo impacto para mover articulaciones y afinar la ejecución sin fatigar de más.","exercises":[{"slug":"diamond-push-up","series":3,"reps":"6-8","rest":45},{"slug":"alternating-reverse-lunge","series":3,"reps":"8–10 por pierna","rest":45},{"slug":"push-up","series":3,"reps":"6–10","rest":45},{"slug":"dead-bug","series":3,"reps":"10 por lado","rest":35}]},{"day":3,"protocol":"PROTOCOLO BARRA INICIAL","duration":30,"type":"FUERZA","difficulty":2,"brief":"Primer acercamiento a la barra: agarre y tirón junto con trabajo de espalda y core.","exercises":[{"slug":"dead-hang","series":3,"reps":"15–25 s","rest":45},{"slug":"inverted-row","series":3,"reps":"6–8","rest":45},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":40},{"slug":"side-plank","series":2,"reps":"20 s por lado","rest":35}]},{"day":4,"protocol":"PROTOCOLO HIIT SUAVE","duration":25,"type":"HIIT","difficulty":2,"brief":"Circuito corto para elevar pulsaciones sin perder el control de la técnica.","exercises":[{"slug":"high-knees","series":4,"reps":"30 s","rest":20},{"slug":"bodyweight-squat","series":4,"reps":"12","rest":25},{"slug":"jumping-jacks","series":4,"reps":"20–25","rest":25},{"slug":"crunch","series":4,"reps":"15","rest":20}]},{"day":5,"protocol":"PROTOCOLO FUERZA BÁSICA","duration":32,"type":"FUERZA","difficulty":2,"brief":"Más volumen en los mismos patrones básicos para consolidar fuerza general.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"15","rest":45},{"slug":"push-up","series":3,"reps":"8–12","rest":45},{"slug":"inverted-row","series":3,"reps":"8–10","rest":45},{"slug":"front-plank","series":3,"reps":"30 s","rest":35}]},{"day":6,"protocol":"PROTOCOLO HIIT BÁSICO","duration":32,"type":"HIIT","difficulty":3,"brief":"Cardio y fuerza ligera combinados en un circuito continuo.","exercises":[{"slug":"high-knees","series":4,"reps":"30 s","rest":20},{"slug":"jump-squat","series":4,"reps":"8–10","rest":25},{"slug":"push-up","series":3,"reps":"8–10","rest":30},{"slug":"walkout-to-plank","series":3,"reps":"6–8","rest":30},{"slug":"mountain-climbers","series":4,"reps":"20 por pierna","rest":20}]},{"day":7,"protocol":"PROTOCOLO CONTROL","duration":28,"type":"MIXTO","difficulty":2,"brief":"Bajamos el ritmo para trabajar isometría, equilibrio y control corporal.","exercises":[{"slug":"wall-sit","series":3,"reps":"30–40 s","rest":40},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":35},{"slug":"bird-dog","series":3,"reps":"10 por lado","rest":30},{"slug":"side-plank","series":2,"reps":"20–25 s por lado","rest":35},{"slug":"hollow-body-hold","series":3,"reps":"20–25 s","rest":35}]},{"day":8,"protocol":"PROTOCOLO FUERZA INTERMEDIA","duration":38,"type":"FUERZA","difficulty":3,"brief":"Sube el volumen de fuerza full body, exigiendo más de cada serie.","exercises":[{"slug":"assisted-bulgarian-split-squat","series":3,"reps":"8–10 por pierna","rest":50},{"slug":"push-up","series":4,"reps":"8–12","rest":45},{"slug":"inverted-row","series":4,"reps":"8–10","rest":45},{"slug":"glute-bridge","series":3,"reps":"15","rest":35},{"slug":"plank-with-arm-reach","series":3,"reps":"8–10 por lado","rest":30}]},{"day":9,"protocol":"PROTOCOLO HIIT TÁCTICO","duration":32,"type":"HIIT","difficulty":3,"brief":"Circuito más largo e intenso que combina piernas, empuje, tirón y cardio.","exercises":[{"slug":"jumping-jacks","series":4,"reps":"30–35 s","rest":20},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":30},{"slug":"diamond-push-up","series":3,"reps":"6–8","rest":35},{"slug":"burpee","series":4,"reps":"8–10","rest":30},{"slug":"mountain-climbers","series":4,"reps":"20–25 por pierna","rest":20}]},{"day":10,"protocol":"PROTOCOLO BARRA INTERMEDIO","duration":38,"type":"FUERZA","difficulty":3,"brief":"Refuerzo de tirón y agarre en barra combinado con fuerza de cuerpo completo.","exercises":[{"slug":"dead-hang","series":3,"reps":"25–35 s","rest":45},{"slug":"inverted-row","series":4,"reps":"8–10","rest":45},{"slug":"negative-pull-up","series":3,"reps":"3–5","rest":60},{"slug":"push-up","series":3,"reps":"10–12","rest":40},{"slug":"bodyweight-squat","series":3,"reps":"15","rest":40},{"slug":"hanging-knee-raise","series":3,"reps":"8–10","rest":40}]},{"day":11,"protocol":"PROTOCOLO PIERNAS & CARDIO","duration":35,"type":"HIIT","difficulty":4,"brief":"Enfoque en piernas con cardio de por medio para exigir resistencia.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"15–20","rest":40},{"slug":"alternating-reverse-lunge","series":3,"reps":"10–12 por pierna","rest":40},{"slug":"jump-squat","series":3,"reps":"10","rest":35},{"slug":"push-up","series":3,"reps":"10–12","rest":35},{"slug":"glute-bridge","series":3,"reps":"15","rest":30},{"slug":"high-knees","series":3,"reps":"30–40 s","rest":30}]},{"day":12,"protocol":"PROTOCOLO SUPERIOR & CORE","duration":38,"type":"FUERZA","difficulty":4,"brief":"Volumen alto en tren superior y core en un mismo bloque.","exercises":[{"slug":"push-up","series":4,"reps":"10–12","rest":45},{"slug":"diamond-push-up","series":3,"reps":"6–8","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"plank-to-push-up","series":3,"reps":"8–10","rest":35},{"slug":"dead-bug","series":3,"reps":"12 por lado","rest":30},{"slug":"hollow-body-hold","series":3,"reps":"25–30 s","rest":40}]},{"day":13,"protocol":"PROTOCOLO EMOM TÁCTICO","duration":30,"type":"MIXTO","difficulty":4,"brief":"Un ejercicio distinto cada minuto exacto: densidad de trabajo full body.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"12 por minuto","rest":0},{"slug":"push-up","series":4,"reps":"8–10 por minuto","rest":0},{"slug":"inverted-row","series":4,"reps":"8 por minuto","rest":0},{"slug":"alternating-reverse-lunge","series":4,"reps":"8 por pierna por minuto","rest":0},{"slug":"mountain-climbers","series":4,"reps":"20 por pierna por minuto","rest":0},{"slug":"front-plank","series":4,"reps":"30–40 s por minuto","rest":0}]},{"day":14,"protocol":"PROTOCOLO CORE & MOVILIDAD","duration":32,"type":"MIXTO","difficulty":3,"brief":"Refuerzo profundo de la zona media con cardio ligero de por medio.","exercises":[{"slug":"lateral-step-march","series":3,"reps":"40 s","rest":20},{"slug":"bird-dog","series":3,"reps":"10–12 por lado","rest":30},{"slug":"glute-bridge","series":3,"reps":"15","rest":30},{"slug":"side-plank","series":3,"reps":"25–30 s por lado","rest":30},{"slug":"dead-bug","series":3,"reps":"12 por lado","rest":25},{"slug":"superman","series":3,"reps":"12–15","rest":30}]},{"day":15,"protocol":"PROTOCOLO FUERZA AVANZADA","duration":42,"type":"FUERZA","difficulty":4,"brief":"Variantes más exigentes de los mismos movimientos con mayor volumen.","exercises":[{"slug":"assisted-bulgarian-split-squat","series":4,"reps":"10–12 por pierna","rest":50},{"slug":"assisted-pistol-squat","series":3,"reps":"5–6 por pierna","rest":50},{"slug":"push-up","series":4,"reps":"12–15","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":35},{"slug":"hollow-body-hold","series":3,"reps":"30–35 s","rest":40}]},{"day":16,"protocol":"PROTOCOLO HIIT AVANZADO","duration":38,"type":"HIIT","difficulty":5,"brief":"El circuito más intenso hasta ahora: máximo volumen con buena técnica.","exercises":[{"slug":"burpee","series":4,"reps":"10–12","rest":30},{"slug":"jump-squat","series":4,"reps":"10–12","rest":30},{"slug":"push-up","series":4,"reps":"12–15","rest":30},{"slug":"mountain-climbers","series":4,"reps":"25–30 por pierna","rest":25},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":30},{"slug":"plank-to-push-up","series":4,"reps":"10–12","rest":25}]},{"day":17,"protocol":"PROTOCOLO BARRA AVANZADO","duration":40,"type":"FUERZA","difficulty":4,"brief":"Consolidación de fuerza de tirón en barra junto con trabajo complementario.","exercises":[{"slug":"dead-hang","series":3,"reps":"30–40 s","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":50},{"slug":"negative-pull-up","series":4,"reps":"4–5","rest":60},{"slug":"diamond-push-up","series":3,"reps":"8–10","rest":45},{"slug":"bodyweight-squat","series":3,"reps":"15–20","rest":40},{"slug":"hanging-knee-raise","series":3,"reps":"10–12","rest":45}]},{"day":18,"protocol":"PROTOCOLO CIRCUITO MIXTO","duration":38,"type":"MIXTO","difficulty":4,"brief":"Fuerza y cardio en un solo circuito continuo de alto volumen.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"15","rest":20},{"slug":"push-up","series":4,"reps":"10–12","rest":20},{"slug":"inverted-row","series":4,"reps":"10","rest":20},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":20},{"slug":"shoulder-tap-plank","series":3,"reps":"10 por lado","rest":20},{"slug":"jumping-jacks","series":4,"reps":"30 s","rest":20}]},{"day":19,"protocol":"PROTOCOLO MISIÓN LARGA","duration":45,"type":"MIXTO","difficulty":4,"brief":"La sesión más larga del programa, con más repeticiones en cada movimiento.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"20","rest":45},{"slug":"alternating-reverse-lunge","series":3,"reps":"12 por pierna","rest":45},{"slug":"push-up","series":4,"reps":"12–15","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":40},{"slug":"superman","series":3,"reps":"12–15","rest":40},{"slug":"front-plank","series":3,"reps":"40–50 s","rest":40}]},{"day":20,"protocol":"PROTOCOLO ISOMÉTRICO","duration":38,"type":"FUERZA","difficulty":5,"brief":"Resistencia muscular a base de posiciones estáticas sostenidas.","exercises":[{"slug":"wall-sit","series":3,"reps":"40–50 s","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":40},{"slug":"front-plank","series":3,"reps":"40–50 s","rest":45},{"slug":"side-plank","series":3,"reps":"30–35 s por lado","rest":45},{"slug":"hollow-body-hold","series":3,"reps":"30–40 s","rest":45},{"slug":"shoulder-tap-plank","series":3,"reps":"12 por lado","rest":45}]},{"day":21,"protocol":"PROTOCOLO PRUEBA FINAL","duration":45,"type":"MIXTO","difficulty":5,"brief":"Cierre del programa: circuito completo a máximo rendimiento para medir tu evolución.","exercises":[{"slug":"bodyweight-squat","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"push-up","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"inverted-row","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"alternating-reverse-lunge","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"dead-hang","series":1,"reps":"Máx tiempo","rest":60},{"slug":"burpee","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"hollow-body-hold","series":3,"reps":"30 s por ronda","rest":45}]}]};
+
+  var STORAGE_KEY = "protocolo21:v1";
+  var TIP_KEY = "protocolo21:tipSeen";
+  var TYPE_COLOR = { FUERZA:"var(--type-fuerza)", HIIT:"var(--type-hiit)", MIXTO:"var(--type-mixto)" };
+
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+    });
+  }
+
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return { name:"Recluta", progress:{} };
+  }
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+  var state = loadState();
+
+  function dayProgress(dayNum){
+    var arr = state.progress[dayNum];
+    var day = DATA.days[dayNum-1];
+    if(!arr || arr.length !== day.exercises.length){
+      arr = day.exercises.map(function(){ return false; });
+      state.progress[dayNum] = arr;
+    }
+    return arr;
+  }
+  function isDayDone(dayNum){
+    var arr = dayProgress(dayNum);
+    return arr.length > 0 && arr.every(Boolean);
+  }
+  function toggleExercise(dayNum, idx){
+    var arr = dayProgress(dayNum);
+    arr[idx] = !arr[idx];
+    saveState();
+    renderTopStats();
+    renderDayList();
+    renderExerciseList(dayNum);
+  }
+
+  function renderTopStats(){
+    var seg = document.getElementById("segbar");
+    seg.innerHTML = "";
+    var doneCount = 0, minutes = 0;
+    DATA.days.forEach(function(d){
+      var done = isDayDone(d.day);
+      if(done){ doneCount++; minutes += d.duration; }
+      var i = document.createElement("i");
+      if(done) i.className = "done";
+      i.title = "Día " + d.day + (done ? " · completado" : "");
+      seg.appendChild(i);
+    });
+    document.getElementById("statDone").textContent = doneCount;
+    document.getElementById("statMin").textContent = minutes;
+    document.getElementById("operatorName").textContent = state.name || "Recluta";
+  }
+
+  function diffDots(n){
+    var out = "";
+    for(var i=1;i<=5;i++){ out += '<i class="' + (i<=n ? "on" : "") + '"></i>'; }
+    return '<span class="diff-dots" aria-label="Dificultad ' + n + ' de 5">' + out + "</span>";
+  }
+
+  function renderDayList(){
+    var list = document.getElementById("dayList");
+    list.innerHTML = "";
+    DATA.days.forEach(function(d){
+      var done = isDayDone(d.day);
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "day-card" + (done ? " done" : "");
+      card.setAttribute("aria-label", "Día " + d.day + ", " + d.protocol);
+      card.innerHTML =
+        '<span class="type-bar" style="background:' + TYPE_COLOR[d.type] + '"></span>' +
+        '<span class="body">' +
+          (done ? '<span class="done-badge">CUMPLIDA</span>' : "") +
+          '<span class="row1"><span class="day-num">' + String(d.day).padStart(2,"0") + '</span></span>' +
+          '<span class="protocol-name">' + esc(d.protocol) + '</span>' +
+          '<span class="meta-row">' +
+            '<span class="type-chip" style="background:' + TYPE_COLOR[d.type] + '">' + d.type + '</span>' +
+            '<span>' + d.duration + ' MIN</span>' +
+            '<span>' + d.exercises.length + ' EJ.</span>' +
+            diffDots(d.difficulty) +
+          '</span>' +
+        '</span>';
+      card.addEventListener("click", function(){ openDay(d.day); });
+      list.appendChild(card);
+    });
+  }
+
+  var currentDay = null;
+
+  function renderExerciseList(dayNum){
+    var day = DATA.days[dayNum-1];
+    var arr = dayProgress(dayNum);
+    var wrap = document.getElementById("exList");
+    wrap.innerHTML = "";
+    day.exercises.forEach(function(ex, idx){
+      var info = DATA.exercises[ex.slug];
+      var checked = !!arr[idx];
+      var item = document.createElement("div");
+      item.className = "ex-item" + (checked ? " checked" : "");
+      var tags = (info.tags||[]).map(function(t){ return '<span class="ex-tag">' + esc(t) + '</span>'; }).join("");
+      item.innerHTML =
+        '<div class="ex-top">' +
+          '<span class="ex-idx">' + String(idx+1).padStart(2,"0") + '</span>' +
+          '<span class="ex-name-row">' +
+            '<span class="ex-name">' + esc(info.name) + '</span>' +
+            (tags ? '<span class="ex-tags">' + tags + '</span>' : "") +
+          '</span>' +
+        '</div>' +
+        '<div class="ex-stats"><span><b>' + ex.series + '</b> × <b>' + esc(ex.reps) + '</b></span>' +
+          (ex.rest > 0 ? '<span>Descanso <b>' + ex.rest + 's</b></span>' : '<span>Sin descanso</span>') +
+        '</div>' +
+        (info.cue ? '<div class="ex-cue">' + esc(info.cue) + '</div>' : "") +
+        '<div class="ex-actions">' +
+          '<button type="button" class="check-toggle' + (checked ? " on" : "") + '" data-idx="' + idx + '">' +
+            '<span class="check-box"></span><span>' + (checked ? "Completado" : "Marcar completo") + '</span>' +
+          '</button>' +
+          (info.video ? '<button type="button" class="video-btn" data-slug="' + esc(ex.slug) + '"><svg viewBox="0 0 10 10"><polygon points="0,0 10,5 0,10"></polygon></svg>VER DEMO</button>' : '<span class="no-video-note">Sin video de referencia</span>') +
+        '</div>';
+      item.querySelector(".check-toggle").addEventListener("click", function(){ toggleExercise(dayNum, idx); });
+      var vbtn = item.querySelector(".video-btn");
+      if(vbtn){ vbtn.addEventListener("click", function(){ openVideo(ex.slug); }); }
+      wrap.appendChild(item);
+    });
+  }
+
+  function openDay(dayNum){
+    currentDay = dayNum;
+    var day = DATA.days[dayNum-1];
+    document.getElementById("sheetDayNum").textContent = "DÍA " + String(dayNum).padStart(2,"0");
+    document.getElementById("sheetProtocol").textContent = day.protocol;
+    document.getElementById("sheetBrief").textContent = day.brief;
+    document.getElementById("sheetBadges").innerHTML =
+      '<span class="badge type" style="background:' + TYPE_COLOR[day.type] + '">' + day.type + '</span>' +
+      '<span class="badge">' + day.duration + ' MIN</span>' +
+      '<span class="badge">DIFICULTAD ' + day.difficulty + '/5</span>';
+    renderExerciseList(dayNum);
+    var sheet = document.getElementById("sheet");
+    sheet.classList.add("open");
+    sheet.setAttribute("aria-hidden","false");
+    history.pushState({ view:"day", day:dayNum }, "", "#dia-" + dayNum);
+    sheet.querySelector(".sheet-body").scrollTop = 0;
+  }
+  function closeDay(fromPop){
+    var sheet = document.getElementById("sheet");
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden","true");
+    currentDay = null;
+    if(!fromPop && location.hash.indexOf("#dia-") === 0){ history.back(); }
+  }
+  document.getElementById("backBtn").addEventListener("click", function(){ closeDay(false); });
+
+  function openVideo(slug){
+    var info = DATA.exercises[slug];
+    if(!info || !info.video) return;
+    document.getElementById("videoTitle").textContent = info.name;
+    document.getElementById("videoCue").textContent = info.cue || "";
+    var v = document.getElementById("videoEl");
+    v.src = info.video;
+    var modal = document.getElementById("videoModal");
+    modal.classList.add("open");
+    v.play().catch(function(){});
+  }
+  function closeVideo(){
+    var modal = document.getElementById("videoModal");
+    modal.classList.remove("open");
+    var v = document.getElementById("videoEl");
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+  }
+  document.getElementById("videoClose").addEventListener("click", closeVideo);
+  document.getElementById("videoModal").addEventListener("click", function(e){
+    if(e.target === this) closeVideo();
+  });
+
+  function openSettings(){
+    document.getElementById("nameInput").value = state.name || "";
+    document.getElementById("settingsModal").classList.add("open");
+  }
+  function closeSettings(){ document.getElementById("settingsModal").classList.remove("open"); }
+  document.getElementById("operatorBtn").addEventListener("click", openSettings);
+  document.getElementById("settingsClose").addEventListener("click", closeSettings);
+  document.getElementById("settingsModal").addEventListener("click", function(e){
+    if(e.target === this) closeSettings();
+  });
+  document.getElementById("saveSettings").addEventListener("click", function(){
+    var val = document.getElementById("nameInput").value.trim();
+    state.name = val || "Recluta";
+    saveState();
+    renderTopStats();
+    closeSettings();
+  });
+
+  window.addEventListener("popstate", function(e){
+    if(!e.state || e.state.view !== "day"){ closeDay(true); }
+  });
+
+  function initTip(){
+    var seen = false;
+    try{ seen = localStorage.getItem(TIP_KEY) === "1"; }catch(e){}
+    if(seen) return;
+    var ua = navigator.userAgent || "";
+    var isIOS = /iphone|ipad|ipod/i.test(ua);
+    var txt = isIOS
+      ? "Consejo: toca Compartir ↑ y elige “Agregar a pantalla de inicio” para abrir esto como una app."
+      : "Consejo: abre el menú ⋮ del navegador y elige “Agregar a pantalla de inicio” o “Instalar app”.";
+    document.getElementById("tipText").textContent = txt;
+    document.getElementById("tipBar").hidden = false;
+  }
+  document.getElementById("tipClose").addEventListener("click", function(){
+    document.getElementById("tipBar").hidden = true;
+    try{ localStorage.setItem(TIP_KEY, "1"); }catch(e){}
+  });
+
+  // init
+  history.replaceState({ view:"home" }, "");
+  renderTopStats();
+  renderDayList();
+  initTip();
+})();
+</script>
