@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#eae3ce" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121108" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Programa de calistenia de 21 dias con video de referencia por ejercicio y progreso guardado en tu telefono.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Protocolo 21">
 <title>Protocolo 21</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -10,6 +23,7 @@
     --font-display:'Big Shoulders Stencil',Impact,'Arial Narrow',sans-serif;
     --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
     --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    color-scheme: light;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -17,6 +31,7 @@
       --line:#3b3624; --accent:#e2952f; --accent-ink:#1a1508;
       --type-fuerza:#8ca36c; --type-hiit:#d6684a; --type-mixto:#7f9cb3;
       --shadow:0 1px 0 rgba(0,0,0,.4);
+      color-scheme: dark;
     }
   }
   :root[data-theme="dark"]{
@@ -24,6 +39,7 @@
     --line:#3b3624; --accent:#e2952f; --accent-ink:#1a1508;
     --type-fuerza:#8ca36c; --type-hiit:#d6684a; --type-mixto:#7f9cb3;
     --shadow:0 1px 0 rgba(0,0,0,.4);
+    color-scheme: dark;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-tap-highlight-color:transparent;}
@@ -124,6 +140,8 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:2px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:600;font-size:13px;cursor:pointer;width:100%;}
   .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
 </style>
+</head>
+<body>
 
 <div class="app" id="app">
   <header class="topbar">
@@ -428,3 +446,5 @@
   initTip();
 })();
 </script>
+</body>
+</html>
