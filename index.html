@@ -503,6 +503,18 @@
   </div>
 </div>
 
+<!-- Mode chosen confirm modal -->
+<div class="modal-overlay" id="modeChosenModal">
+  <div class="modal-card">
+    <button class="modal-close" id="modeChosenClose" aria-label="Cerrar">&times;</button>
+    <div class="settings-inner">
+      <h2 id="modeChosenTitle">Modo elegido</h2>
+      <p class="field-note" style="margin-top:0;" id="modeChosenText"></p>
+      <button class="btn primary" id="modeChosenGo" type="button">Aceptar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Exercise library sheet -->
 <section class="sheet" id="librarySheet" aria-hidden="true">
   <div class="sheet-header">
@@ -1195,15 +1207,29 @@
     closeModeSelect();
     enterApp();
     showModeTip();
+    openModeChosenModal();
+  }
+  function modeSwitchMessage(){
+    var modern = state.mode === "gym";
+    return "Elegiste " + (modern ? "Ella Fit" : "Calistenia Militar") + ". Puedes cambiar a " + (modern ? "Calistenia Militar" : "Ella Fit") + " cuando quieras desde tu perfil.";
   }
   function showModeTip(){
-    var modern = state.mode === "gym";
-    document.getElementById("modeTipText").textContent = "Elegiste " + (modern ? "Ella Fit" : "Calistenia Militar") + ". Puedes cambiar a " + (modern ? "Calistenia Militar" : "Ella Fit") + " cuando quieras desde tu perfil.";
+    document.getElementById("modeTipText").textContent = modeSwitchMessage();
     document.getElementById("modeTipBar").hidden = false;
   }
   document.getElementById("modeTipClose").addEventListener("click", function(){
     document.getElementById("modeTipBar").hidden = true;
   });
+  function openModeChosenModal(){
+    var modern = state.mode === "gym";
+    document.getElementById("modeChosenTitle").textContent = modern ? "¡Bienvenida a Ella Fit!" : "¡Bienvenido a Calistenia Militar!";
+    document.getElementById("modeChosenText").textContent = modeSwitchMessage();
+    document.getElementById("modeChosenModal").classList.add("open");
+  }
+  function closeModeChosenModal(){ document.getElementById("modeChosenModal").classList.remove("open"); }
+  document.getElementById("modeChosenClose").addEventListener("click", closeModeChosenModal);
+  document.getElementById("modeChosenGo").addEventListener("click", closeModeChosenModal);
+  document.getElementById("modeChosenModal").addEventListener("click", function(e){ if(e.target === this) closeModeChosenModal(); });
   document.getElementById("modeCardCalistenia").addEventListener("click", function(){ chooseMode("calistenia"); });
   document.getElementById("modeCardGym").addEventListener("click", function(){ chooseMode("gym"); });
 
