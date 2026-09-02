@@ -673,7 +673,8 @@
     return state.mode === "gym" ? GYM_DAYS : DATA.days;
   }
   function dayProgress(dayNum){
-    var bucket = state.progress[state.mode] || (state.progress[state.mode] = {});
+    var modeKey = state.mode || "calistenia";
+    var bucket = state.progress[modeKey] || (state.progress[modeKey] = {});
     var arr = bucket[dayNum];
     var day = activeDays()[dayNum-1];
     if(!arr || arr.length !== day.exercises.length){
