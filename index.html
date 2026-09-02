@@ -246,14 +246,31 @@
   .modesel-cards{display:flex;flex-direction:column;gap:14px;margin-top:26px;}
   .modesel-card{display:flex;flex-direction:column;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:0;overflow:hidden;cursor:pointer;width:100%;}
   .modesel-card:active{transform:scale(.98);}
-  .modesel-art{display:flex;align-items:center;justify-content:center;height:132px;}
-  .modesel-art svg{width:68px;height:68px;fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;}
-  .modesel-art-cal{background:linear-gradient(135deg,#6d28d9,#db2777);}
-  .modesel-art-gym{background:linear-gradient(135deg,#ea580c,#facc15);}
+  .modesel-art{position:relative;height:150px;overflow:hidden;background:#000;}
+  .modesel-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .modesel-art-scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,8,14,0) 45%, rgba(8,8,14,.85) 100%);}
   .modesel-card-body{padding:16px 18px 20px;}
   .modesel-card-title{display:block;font-family:var(--font-display);font-weight:800;font-size:17px;}
   .modesel-card-desc{display:block;font-size:12.5px;color:var(--ink-dim);margin-top:5px;line-height:1.45;}
   .modesel-foot{font-size:11.5px;color:var(--ink-dim);text-align:center;margin-top:20px;line-height:1.4;}
+
+  /* ---- carrusel del onboarding (siempre visible, con vida) ---- */
+  .onb-hero{position:relative;height:38vh;min-height:220px;max-height:320px;overflow:hidden;flex-shrink:0;background:#000;}
+  .onb-hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+    animation:onbCrossfade 24s infinite, onbKenBurns 24s infinite ease-in-out;}
+  .onb-hero-slide:nth-child(1){animation-delay:0s, 0s;}
+  .onb-hero-slide:nth-child(2){animation-delay:-6s, -6s;}
+  .onb-hero-slide:nth-child(3){animation-delay:-12s, -12s;}
+  .onb-hero-slide:nth-child(4){animation-delay:-18s, -18s;}
+  .onb-hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,8,14,.05) 0%, rgba(8,8,14,.25) 55%, var(--bg) 100%);}
+  .onb-hero-tagline{position:absolute;left:20px;right:20px;bottom:16px;font-family:var(--font-display);font-weight:800;font-size:clamp(19px,6vw,25px);color:#fff;letter-spacing:-.01em;text-shadow:0 2px 14px rgba(0,0,0,.55);}
+  #onboardingSheet .sheet-header{padding-top:16px;}
+  @keyframes onbCrossfade{0%{opacity:0;}4%{opacity:1;}21%{opacity:1;}25%{opacity:0;}100%{opacity:0;}}
+  @keyframes onbKenBurns{0%{transform:scale(1);}100%{transform:scale(1.12);}}
+  @media (prefers-reduced-motion: reduce){
+    .onb-hero-slide{animation:none;opacity:0;}
+    .onb-hero-slide:nth-child(1){opacity:1;}
+  }
 </style>
 </head>
 <body>
@@ -350,6 +367,14 @@
 
 <!-- Onboarding sheet (ficha de operador) -->
 <section class="sheet" id="onboardingSheet" aria-hidden="true">
+  <div class="onb-hero" aria-hidden="true">
+    <img class="onb-hero-slide" src="images/onboarding-motivation.jpg" alt="">
+    <img class="onb-hero-slide" src="images/modeselect-calistenia.jpg" alt="">
+    <img class="onb-hero-slide" src="images/modeselect-gym.jpg" alt="">
+    <img class="onb-hero-slide" src="images/gym-fuerza.jpg" alt="">
+    <span class="onb-hero-scrim"></span>
+    <span class="onb-hero-tagline">Tu mejor versión empieza hoy</span>
+  </div>
   <div class="sheet-header">
     <div class="onb-progress" id="onbProgress">PASO 1 / 2</div>
     <div class="sheet-daynum" style="font-size:clamp(24px,8.5vw,32px);">FICHA DE OPERADOR</div>
@@ -406,8 +431,9 @@
     <p class="modesel-sub">Elige tu camino para los próximos 21 días. Puedes cambiarlo cuando quieras desde tu perfil.</p>
     <div class="modesel-cards">
       <button type="button" class="modesel-card" id="modeCardCalistenia">
-        <span class="modesel-art modesel-art-cal" aria-hidden="true">
-          <svg viewBox="0 0 100 100"><line x1="15" y1="18" x2="85" y2="18"/><circle cx="50" cy="32" r="8"/><line x1="50" y1="40" x2="50" y2="68"/><line x1="50" y1="18" x2="34" y2="40"/><line x1="50" y1="18" x2="66" y2="40"/><line x1="50" y1="68" x2="37" y2="90"/><line x1="50" y1="68" x2="63" y2="90"/></svg>
+        <span class="modesel-art" aria-hidden="true">
+          <img src="images/modeselect-calistenia.jpg" alt="" loading="lazy">
+          <span class="modesel-art-scrim"></span>
         </span>
         <span class="modesel-card-body">
           <span class="modesel-card-title">Calistenia Militar</span>
@@ -415,12 +441,13 @@
         </span>
       </button>
       <button type="button" class="modesel-card" id="modeCardGym">
-        <span class="modesel-art modesel-art-gym" aria-hidden="true">
-          <svg viewBox="0 0 100 100"><rect x="8" y="42" width="10" height="16" rx="2"/><rect x="18" y="36" width="8" height="28" rx="2"/><rect x="30" y="47" width="40" height="6" rx="3"/><rect x="74" y="36" width="8" height="28" rx="2"/><rect x="82" y="42" width="10" height="16" rx="2"/></svg>
+        <span class="modesel-art" aria-hidden="true">
+          <img src="images/modeselect-gym.jpg" alt="" loading="lazy">
+          <span class="modesel-art-scrim"></span>
         </span>
         <span class="modesel-card-body">
           <span class="modesel-card-title">GYM</span>
-          <span class="modesel-card-desc">21 días combinando pesas, máquinas y calistenia dentro del gimnasio.</span>
+          <span class="modesel-card-desc">21 días combinando calistenia, mancuernas, kettlebell y saco de boxeo.</span>
         </span>
       </button>
     </div>
@@ -464,84 +491,77 @@
 
   // ---- Programa GYM: mismos 21 días, mezclando ejercicios con equipo y calistenia ----
   var GYM_DAYS = [
-    {day:1,protocol:"FUERZA TOTAL I",duration:30,type:"FUERZA",difficulty:1,brief:"Tu primer día en el gym: técnica de sentadilla goblet, empuje de pecho y remo para sentar las bases.",exercises:[
-      {slug:"dumbbell-goblet-squat",series:3,reps:"12",rest:45},{slug:"incline-machine-press",series:3,reps:"10",rest:45},
-      {slug:"seated-cable-row",series:3,reps:"10",rest:45},{slug:"front-plank",series:3,reps:"20–30 s",rest:40}]},
-    {day:2,protocol:"TREN SUPERIOR LIGERO",duration:28,type:"MIXTO",difficulty:1,brief:"Trabajo ligero de tren superior y activación de core para moverte sin cargar de más.",exercises:[
-      {slug:"machine-reverse-fly",series:3,reps:"12",rest:40},{slug:"hammer-curls",series:3,reps:"10",rest:40},
-      {slug:"push-up",series:3,reps:"8–10",rest:40},{slug:"dead-bug",series:3,reps:"10 por lado",rest:30}]},
-    {day:3,protocol:"PIERNA · MÁQUINAS",duration:30,type:"FUERZA",difficulty:2,brief:"Pierna con máquinas: aprende el patrón antes de sumar peso libre.",exercises:[
-      {slug:"hack-squat",series:3,reps:"10",rest:45},{slug:"leg-extension",series:3,reps:"12",rest:40},
-      {slug:"lying-leg-curl",series:3,reps:"12",rest:40},{slug:"glute-bridge",series:3,reps:"15",rest:35}]},
-    {day:4,protocol:"METABÓLICO KETTLEBELL",duration:25,type:"HIIT",difficulty:2,brief:"Circuito corto con kettlebell para subir pulsaciones sin perder la forma.",exercises:[
-      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"high-knees",series:4,reps:"30 s",rest:20},
+    {day:1,protocol:"FUERZA TOTAL I",duration:30,type:"FUERZA",difficulty:1,brief:"Tu primer día: sentadilla goblet, empuje y remo con mancuerna para sentar las bases.",exercises:[
+      {slug:"dumbbell-goblet-squat",series:3,reps:"12",rest:45},{slug:"push-up",series:3,reps:"8–10",rest:45},
+      {slug:"single-arm-dumbbell-row",series:3,reps:"10 por lado",rest:45},{slug:"front-plank",series:3,reps:"20–30 s",rest:40}]},
+    {day:2,protocol:"TREN SUPERIOR Y CORE",duration:28,type:"MIXTO",difficulty:1,brief:"Hombro, espalda baja y core con mancuernas ligeras y tu propio peso.",exercises:[
+      {slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:40},{slug:"push-up",series:3,reps:"8–10",rest:40},
+      {slug:"superman",series:3,reps:"12–15",rest:30},{slug:"dead-bug",series:3,reps:"10 por lado",rest:30}]},
+    {day:3,protocol:"PIERNA Y GLÚTEO LIBRE",duration:30,type:"FUERZA",difficulty:2,brief:"Piernas y glúteo solo con mancuernas: nada de máquinas, técnica ante todo.",exercises:[
+      {slug:"dumbbell-shoulder-squat",series:3,reps:"12",rest:45},{slug:"dumbbell-rdl",series:3,reps:"10–12",rest:45},
+      {slug:"glute-bridge",series:3,reps:"15",rest:35},{slug:"wall-sit",series:3,reps:"30–40 s",rest:35}]},
+    {day:4,protocol:"METABÓLICO KETTLEBELL Y SACO",duration:25,type:"HIIT",difficulty:2,brief:"Kettlebell y saco de boxeo para subir pulsaciones sin perder la forma.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"heavy-bag-punches",series:4,reps:"30 s",rest:20},
       {slug:"jumping-jacks",series:4,reps:"20–25",rest:20},{slug:"crunch",series:4,reps:"15",rest:20}]},
-    {day:5,protocol:"EMPUJE · PECHO Y TRÍCEPS",duration:32,type:"FUERZA",difficulty:2,brief:"Empuje de pecho y tríceps con carga progresiva en barra y máquina.",exercises:[
-      {slug:"barbell-bench-press",series:3,reps:"8–10",rest:60},{slug:"incline-machine-press",series:3,reps:"10",rest:50},
-      {slug:"cable-tricep-pushdown",series:3,reps:"12",rest:40},{slug:"front-plank",series:3,reps:"30 s",rest:35}]},
-    {day:6,protocol:"CIRCUITO FUNCIONAL",duration:32,type:"HIIT",difficulty:3,brief:"Circuito funcional que mezcla kettlebell, salto y ejercicios con tu propio peso.",exercises:[
-      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"jump-squat",series:4,reps:"8–10",rest:25},
-      {slug:"push-up",series:3,reps:"8–10",rest:30},{slug:"mountain-climbers",series:4,reps:"20 por pierna",rest:20},
+    {day:5,protocol:"EMPUJE · PECHO Y BRAZOS",duration:32,type:"FUERZA",difficulty:2,brief:"Empuje con tu propio peso y mancuernas, sin banco ni máquina.",exercises:[
+      {slug:"push-up",series:3,reps:"10–12",rest:45},{slug:"kettlebell-push-press",series:3,reps:"8",rest:50},
+      {slug:"hammer-curls",series:3,reps:"10",rest:40},{slug:"front-plank",series:3,reps:"30 s",rest:35}]},
+    {day:6,protocol:"CIRCUITO FUNCIONAL Y SACO",duration:32,type:"HIIT",difficulty:3,brief:"Circuito funcional que mezcla kettlebell, saco de boxeo y salto.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"heavy-bag-punches",series:4,reps:"30 s",rest:20},
+      {slug:"jump-squat",series:4,reps:"8–10",rest:25},{slug:"mountain-climbers",series:4,reps:"20 por pierna",rest:20},
       {slug:"goblet-squat-kettlebell",series:3,reps:"10",rest:30}]},
     {day:7,protocol:"CONTROL Y ESTABILIDAD",duration:28,type:"MIXTO",difficulty:2,brief:"Control y estabilidad: trabajo unilateral y core antes de subir la intensidad.",exercises:[
       {slug:"single-arm-dumbbell-row",series:3,reps:"10 por lado",rest:40},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:35},
       {slug:"bird-dog",series:3,reps:"10 por lado",rest:30},{slug:"side-plank",series:2,reps:"20–25 s por lado",rest:35},
       {slug:"hollow-body-hold",series:3,reps:"20–25 s",rest:35}]},
-    {day:8,protocol:"TIRÓN · ESPALDA Y BÍCEPS",duration:38,type:"FUERZA",difficulty:3,brief:"Día de tirón: espalda y bíceps con máquinas y polea.",exercises:[
+    {day:8,protocol:"ESPALDA Y GLÚTEO",duration:38,type:"FUERZA",difficulty:3,brief:"Tirón de espalda en polea y trabajo de glúteo con mancuerna.",exercises:[
       {slug:"lat-pulldown",series:4,reps:"10",rest:50},{slug:"seated-cable-row",series:4,reps:"10",rest:50},
-      {slug:"hammer-curls",series:3,reps:"10",rest:40},{slug:"high-cable-curl",series:3,reps:"10",rest:40},
-      {slug:"hanging-knee-raise",series:3,reps:"8–10",rest:40}]},
-    {day:9,protocol:"CIRCUITO TÁCTICO",duration:32,type:"HIIT",difficulty:3,brief:"Circuito que combina fuerza explosiva con kettlebell y cardio corporal.",exercises:[
-      {slug:"kettlebell-push-press",series:4,reps:"8",rest:30},{slug:"burpee",series:4,reps:"8–10",rest:30},
+      {slug:"dumbbell-rdl",series:3,reps:"10–12",rest:45},{slug:"hanging-knee-raise",series:3,reps:"8–10",rest:40}]},
+    {day:9,protocol:"CIRCUITO TÁCTICO Y SACO",duration:32,type:"HIIT",difficulty:3,brief:"Fuerza explosiva con kettlebell y golpes al saco de boxeo.",exercises:[
+      {slug:"kettlebell-push-press",series:4,reps:"8",rest:30},{slug:"heavy-bag-punches",series:4,reps:"30 s",rest:25},
       {slug:"mountain-climbers",series:4,reps:"20–25 por pierna",rest:20},{slug:"goblet-squat-kettlebell",series:3,reps:"10",rest:30},
       {slug:"plank-to-push-up",series:3,reps:"8",rest:30}]},
-    {day:10,protocol:"FUERZA TOTAL II · PIERNA PESADA",duration:38,type:"FUERZA",difficulty:3,brief:"Pierna pesada con barra y máquinas para construir base de fuerza.",exercises:[
-      {slug:"barbell-back-squat",series:4,reps:"8",rest:60},{slug:"hack-squat",series:3,reps:"10",rest:50},
-      {slug:"lying-leg-curl",series:3,reps:"12",rest:40},{slug:"glute-kickback-machine",series:3,reps:"12 por lado",rest:35},
-      {slug:"hollow-body-hold",series:3,reps:"25–30 s",rest:35}]},
-    {day:11,protocol:"CARDIO CON CARGA",duration:35,type:"HIIT",difficulty:4,brief:"Cardio con carga: kettlebell y salto para elevar el gasto calórico.",exercises:[
-      {slug:"kettlebell-swing",series:4,reps:"18",rest:20},{slug:"jump-squat",series:3,reps:"10",rest:30},
-      {slug:"push-up",series:3,reps:"10–12",rest:30},{slug:"high-knees",series:3,reps:"30–40 s",rest:25},
-      {slug:"dumbbell-goblet-squat",series:3,reps:"12",rest:30}]},
-    {day:12,protocol:"SUPERIOR COMPLETO",duration:38,type:"FUERZA",difficulty:4,brief:"Tren superior completo: pecho, hombro y tríceps con más volumen.",exercises:[
-      {slug:"barbell-bench-press",series:4,reps:"8",rest:55},{slug:"pec-deck-fly",series:3,reps:"12",rest:40},
-      {slug:"overhead-cable-extension",series:3,reps:"12",rest:40},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:35},
-      {slug:"plank-to-push-up",series:3,reps:"8–10",rest:35}]},
+    {day:10,protocol:"GLÚTEO Y PIERNA PESADA",duration:38,type:"FUERZA",difficulty:3,brief:"Sentadilla con barra y glúteo con mancuerna: pierna pesada sin máquinas.",exercises:[
+      {slug:"barbell-back-squat",series:4,reps:"8",rest:60},{slug:"dumbbell-rdl",series:3,reps:"12",rest:50},
+      {slug:"dumbbell-shoulder-squat",series:3,reps:"12",rest:45},{slug:"glute-bridge",series:3,reps:"15–20",rest:35}]},
+    {day:11,protocol:"CARDIO CON CARGA Y SACO",duration:35,type:"HIIT",difficulty:4,brief:"Kettlebell, saco de boxeo y salto para elevar el gasto calórico.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"18",rest:20},{slug:"heavy-bag-punches",series:4,reps:"40 s",rest:20},
+      {slug:"jump-squat",series:3,reps:"10",rest:30},{slug:"push-up",series:3,reps:"10–12",rest:30}]},
+    {day:12,protocol:"SUPERIOR COMPLETO",duration:38,type:"FUERZA",difficulty:4,brief:"Empuje y hombro con tu propio peso y mancuernas, más volumen.",exercises:[
+      {slug:"push-up",series:4,reps:"10–12",rest:45},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:40},
+      {slug:"kettlebell-push-press",series:3,reps:"8",rest:45},{slug:"plank-to-push-up",series:3,reps:"8–10",rest:35}]},
     {day:13,protocol:"CIRCUITO EMOM",duration:30,type:"MIXTO",difficulty:4,brief:"Circuito EMOM: un ejercicio distinto cada minuto exacto.",exercises:[
       {slug:"dumbbell-goblet-squat",series:4,reps:"10 por minuto",rest:0},{slug:"push-up",series:4,reps:"8–10 por minuto",rest:0},
       {slug:"single-arm-dumbbell-row",series:4,reps:"8 por lado por minuto",rest:0},{slug:"kettlebell-swing",series:4,reps:"12 por minuto",rest:0},
       {slug:"mountain-climbers",series:4,reps:"20 por pierna por minuto",rest:0}]},
-    {day:14,protocol:"TIRÓN Y CORE",duration:32,type:"MIXTO",difficulty:3,brief:"Tirón y core profundo para cerrar la semana.",exercises:[
+    {day:14,protocol:"ESPALDA Y CORE",duration:32,type:"MIXTO",difficulty:3,brief:"Tirón de espalda y core profundo para cerrar la semana.",exercises:[
       {slug:"lat-pulldown",series:3,reps:"10",rest:45},{slug:"seated-cable-row",series:3,reps:"10",rest:45},
       {slug:"cable-woodchop",series:3,reps:"10 por lado",rest:30},{slug:"dead-bug",series:3,reps:"12 por lado",rest:25},
       {slug:"superman",series:3,reps:"12–15",rest:30}]},
-    {day:15,protocol:"FUERZA MÁXIMA · PIERNA",duration:42,type:"FUERZA",difficulty:4,brief:"Fuerza máxima de pierna: sentadilla y peso muerto con barra.",exercises:[
+    {day:15,protocol:"FUERZA MÁXIMA · GLÚTEO",duration:42,type:"FUERZA",difficulty:4,brief:"Sentadilla y peso muerto con barra, más peso muerto rumano con mancuerna.",exercises:[
       {slug:"barbell-back-squat",series:4,reps:"6",rest:70},{slug:"barbell-deadlift",series:3,reps:"6",rest:70},
-      {slug:"leg-extension",series:3,reps:"12",rest:45},{slug:"lying-leg-curl",series:3,reps:"12",rest:45},
-      {slug:"hollow-body-hold",series:3,reps:"30–35 s",rest:40}]},
-    {day:16,protocol:"MÁXIMA INTENSIDAD",duration:38,type:"HIIT",difficulty:5,brief:"El circuito más intenso hasta ahora: metabólico puro.",exercises:[
-      {slug:"kettlebell-swing",series:4,reps:"20",rest:25},{slug:"burpee",series:4,reps:"10–12",rest:30},
-      {slug:"jump-squat",series:4,reps:"10–12",rest:30},{slug:"mountain-climbers",series:4,reps:"25–30 por pierna",rest:25},
-      {slug:"goblet-squat-kettlebell",series:3,reps:"12",rest:30}]},
-    {day:17,protocol:"EMPUJE-TIRÓN AVANZADO",duration:40,type:"FUERZA",difficulty:4,brief:"Empuje y tirón avanzado en el mismo bloque de entreno.",exercises:[
-      {slug:"barbell-bench-press",series:4,reps:"8",rest:55},{slug:"lat-pulldown",series:4,reps:"10",rest:50},
-      {slug:"machine-bicep-curl",series:3,reps:"10",rest:40},{slug:"cable-tricep-pushdown",series:3,reps:"12",rest:40},
-      {slug:"hanging-knee-raise",series:3,reps:"10–12",rest:45}]},
-    {day:18,protocol:"CIRCUITO COMPLETO",duration:38,type:"MIXTO",difficulty:4,brief:"Circuito completo que recorre todo el cuerpo sin pausas largas.",exercises:[
+      {slug:"dumbbell-rdl",series:3,reps:"10",rest:55},{slug:"hollow-body-hold",series:3,reps:"30–35 s",rest:40}]},
+    {day:16,protocol:"MÁXIMA INTENSIDAD Y SACO",duration:38,type:"HIIT",difficulty:5,brief:"El circuito más intenso hasta ahora: kettlebell, saco de boxeo y salto.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"20",rest:25},{slug:"heavy-bag-punches",series:4,reps:"45 s",rest:25},
+      {slug:"burpee",series:4,reps:"10–12",rest:30},{slug:"jump-squat",series:4,reps:"10–12",rest:30}]},
+    {day:17,protocol:"EMPUJE-TIRÓN AVANZADO",duration:40,type:"FUERZA",difficulty:4,brief:"Empuje con tu propio peso, tirón en polea y brazo con mancuerna.",exercises:[
+      {slug:"push-up",series:4,reps:"12–15",rest:45},{slug:"lat-pulldown",series:4,reps:"10",rest:50},
+      {slug:"hammer-curls",series:3,reps:"10",rest:40},{slug:"hanging-knee-raise",series:3,reps:"10–12",rest:45}]},
+    {day:18,protocol:"CIRCUITO COMPLETO",duration:38,type:"MIXTO",difficulty:4,brief:"Circuito de cuerpo completo con mancuerna, kettlebell y polea, sin pausas largas.",exercises:[
       {slug:"dumbbell-goblet-squat",series:4,reps:"12",rest:25},{slug:"seated-cable-row",series:4,reps:"10",rest:25},
-      {slug:"incline-machine-press",series:4,reps:"10",rest:25},{slug:"kettlebell-swing",series:4,reps:"15",rest:20},
+      {slug:"push-up",series:4,reps:"10",rest:25},{slug:"kettlebell-swing",series:4,reps:"15",rest:20},
       {slug:"shoulder-tap-plank",series:3,reps:"10 por lado",rest:20}]},
-    {day:19,protocol:"SESIÓN LARGA",duration:45,type:"MIXTO",difficulty:4,brief:"La sesión más larga: fuerza de cuerpo completo con más series.",exercises:[
-      {slug:"barbell-back-squat",series:4,reps:"10",rest:60},{slug:"barbell-bench-press",series:4,reps:"10",rest:60},
+    {day:19,protocol:"SESIÓN LARGA",duration:45,type:"MIXTO",difficulty:4,brief:"La sesión más larga: sentadilla, empuje, tirón y glúteo con más series.",exercises:[
+      {slug:"barbell-back-squat",series:4,reps:"10",rest:60},{slug:"push-up",series:4,reps:"12–15",rest:55},
       {slug:"lat-pulldown",series:4,reps:"10",rest:55},{slug:"kettlebell-romanian-deadlift",series:3,reps:"10",rest:50},
       {slug:"superman",series:3,reps:"12–15",rest:40},{slug:"front-plank",series:3,reps:"40–50 s",rest:40}]},
-    {day:20,protocol:"ISOMÉTRICO Y FUERZA MÁXIMA",duration:38,type:"FUERZA",difficulty:5,brief:"Fuerza máxima e isometría para cerrar con control.",exercises:[
-      {slug:"barbell-deadlift",series:3,reps:"5",rest:75},{slug:"hack-squat",series:3,reps:"10",rest:50},
+    {day:20,protocol:"ISOMÉTRICO Y FUERZA MÁXIMA",duration:38,type:"FUERZA",difficulty:5,brief:"Peso muerto con barra, sentadilla con mancuernas e isometría para cerrar con control.",exercises:[
+      {slug:"barbell-deadlift",series:3,reps:"5",rest:75},{slug:"dumbbell-shoulder-squat",series:3,reps:"12",rest:50},
       {slug:"wall-sit",series:3,reps:"40–50 s",rest:45},{slug:"front-plank",series:3,reps:"40–50 s",rest:45},
       {slug:"hollow-body-hold",series:3,reps:"30–40 s",rest:45}]},
-    {day:21,protocol:"PRUEBA FINAL",duration:45,type:"MIXTO",difficulty:5,brief:"Cierre del programa: prueba final a máximo rendimiento contra el reloj.",exercises:[
+    {day:21,protocol:"PRUEBA FINAL",duration:45,type:"MIXTO",difficulty:5,brief:"Cierre del programa: máximo rendimiento contra el reloj, con saco incluido.",exercises:[
       {slug:"kettlebell-swing",series:1,reps:"Máx repeticiones en 60 s",rest:60},{slug:"push-up",series:1,reps:"Máx repeticiones en 60 s",rest:60},
-      {slug:"seated-cable-row",series:1,reps:"Máx repeticiones en 60 s",rest:60},{slug:"single-arm-dumbbell-row",series:1,reps:"Máx repeticiones en 60 s por lado",rest:60},
+      {slug:"heavy-bag-punches",series:1,reps:"Máx tiempo de golpeo en 60 s",rest:60},{slug:"single-arm-dumbbell-row",series:1,reps:"Máx repeticiones en 60 s por lado",rest:60},
       {slug:"dead-hang",series:1,reps:"Máx tiempo",rest:60},{slug:"burpee",series:1,reps:"Máx repeticiones en 60 s",rest:60},
       {slug:"hollow-body-hold",series:3,reps:"30 s por ronda",rest:45}]}
   ];
@@ -550,6 +570,7 @@
   var TIP_KEY = "protocolo21:tipSeen";
   var TYPE_COLOR = { FUERZA:"var(--type-fuerza)", HIIT:"var(--type-hiit)", MIXTO:"var(--type-mixto)" };
   var TYPE_IMAGE = { FUERZA:"images/FUERZA.webp", HIIT:"images/HIIT.webp", MIXTO:"images/MIXTO.webp" };
+  var GYM_TYPE_IMAGE = { FUERZA:"images/gym-fuerza.jpg", HIIT:"images/gym-hiit.jpg", MIXTO:"images/gym-mixto.jpg" };
   var EX_ES = {
     "bodyweight-squat":"Sentadilla con peso corporal",
     "alternating-reverse-lunge":"Zancada inversa alterna",
@@ -619,7 +640,10 @@
     "lying-leg-curl":{name:"Lying Leg Curl",video:"videos-equipo/Lying%20Leg%20Curl.mp4",tags:["isquios"],cue:"Boca abajo, flexiona las rodillas llevando el rodillo hacia los glúteos; baja controlado."},
     "glute-kickback-machine":{name:"Glute Kickback Machine",video:"videos-equipo/Glute%20Kickback%20Machine.mp4",tags:["glúteos"],cue:"Empuja la plataforma hacia atrás extendiendo la cadera, sin arquear la espalda baja."},
     "machine-reverse-fly":{name:"Machine Reverse Fly",video:"videos-equipo/Machine%20Reverse%20Fly.mp4",tags:["hombros"],cue:"Con los brazos semi flexionados, abre hacia atrás apretando los omóplatos."},
-    "cable-woodchop":{name:"Cable Woodchop",video:"videos-equipo/Cable%20Woodchop.mp4",tags:["core"],cue:"Gira el torso llevando el agarre en diagonal de arriba hacia abajo, manteniendo la cadera estable."}
+    "cable-woodchop":{name:"Cable Woodchop",video:"videos-equipo/Cable%20Woodchop.mp4",tags:["core"],cue:"Gira el torso llevando el agarre en diagonal de arriba hacia abajo, manteniendo la cadera estable."},
+    "heavy-bag-punches":{name:"Heavy Bag Punches",video:"videos-equipo/Heavy%20Bag%20Punches.mp4",tags:["cardio","hombros","core"],cue:"Guardia arriba, gira la cadera con cada golpe y regresa rápido a guardia sin bajar las manos."},
+    "dumbbell-rdl":{name:"Dumbbell Romanian Deadlift",video:"videos-equipo/Dumbbell%20Romanian%20Deadlift%20Hinge.mp4",tags:["glúteos","isquios"],cue:"Mancuernas pegadas a los muslos, empuja la cadera hacia atrás con piernas casi rectas y baja hasta sentir el estirón en isquios."},
+    "dumbbell-shoulder-squat":{name:"Dumbbell Shoulder Squat",video:"videos-equipo/Dumbbell%20Shoulder%20Squat.mp4",tags:["glúteos","piernas"],cue:"Mancuernas apoyadas sobre los hombros, baja en sentadilla manteniendo el pecho arriba y empuja desde los talones."}
   };
   Object.keys(EQUIP).forEach(function(k){ EQUIP[k].slug = k; EQUIP[k].category = "equipo"; DATA.exercises[k] = EQUIP[k]; });
   Object.assign(EX_ES, {
@@ -631,7 +655,8 @@
     "cable-tricep-pushdown":"Extensión de tríceps en polea","overhead-cable-extension":"Extensión de tríceps sobre la cabeza","machine-bicep-curl":"Curl de bíceps en máquina",
     "high-cable-curl":"Curl de bíceps en polea alta","leg-extension":"Extensión de cuádriceps en máquina","hack-squat":"Sentadilla hack",
     "lying-leg-curl":"Curl femoral acostado","glute-kickback-machine":"Patada de glúteo en máquina","machine-reverse-fly":"Aperturas posteriores en máquina",
-    "cable-woodchop":"Leñador en polea"
+    "cable-woodchop":"Leñador en polea",
+    "heavy-bag-punches":"Golpes al saco de boxeo","dumbbell-rdl":"Peso muerto rumano con mancuerna","dumbbell-shoulder-squat":"Sentadilla con mancuernas al hombro"
   });
 
   function esc(s){
@@ -724,8 +749,9 @@
       card.type = "button";
       card.className = "day-card" + (done ? " done" : "");
       card.setAttribute("aria-label", "Día " + d.day + ", " + d.protocol);
+      var imgMap = state.mode === "gym" ? GYM_TYPE_IMAGE : TYPE_IMAGE;
       card.innerHTML =
-        '<img class="day-card-img" src="' + TYPE_IMAGE[d.type] + '" alt="" loading="lazy">' +
+        '<img class="day-card-img" src="' + imgMap[d.type] + '" alt="" loading="lazy">' +
         '<span class="day-card-scrim"></span>' +
         '<span class="type-bar" style="background:' + TYPE_COLOR[d.type] + '"></span>' +
         '<span class="body">' +
