@@ -110,6 +110,13 @@
   .ex-stats{display:flex;gap:14px;font-family:var(--font-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink-dim);padding-left:34px;}
   .ex-stats b{color:var(--ink);font-weight:600;}
   .ex-cue{font-size:14.5px;color:var(--ink-dim);line-height:1.55;padding-left:34px;}
+  .ex-muscle-row{display:flex;align-items:center;gap:10px;padding-left:34px;}
+  .ex-muscle-icon{display:flex;gap:4px;flex-shrink:0;}
+  .muscle-svg{width:16px;height:34px;}
+  .muscle-svg .mr{fill:var(--surface-2);}
+  .muscle-svg .mr.on{fill:var(--accent);}
+  .muscle-svg .mr-head{fill:var(--surface-2);}
+  .ex-muscle-desc{font-size:12px;color:var(--ink-dim);line-height:1.4;}
   .ex-name-es{font-weight:400;color:var(--ink-dim);font-size:0.9em;}
   .ex-actions{display:flex;gap:10px;padding-left:34px;align-items:center;}
   .check-toggle{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;cursor:pointer;user-select:none;background:none;border:none;color:var(--ink);padding:2px 0;}
@@ -205,14 +212,14 @@
 
   /* ================= MODERN THEME (onboarding, selector de modo, sesión GYM) ================= */
   html[data-mode="modern"]{
-    --bg:#0f1117; --surface:#171a21; --surface-2:#1f232c; --ink:#f4f5f8; --ink-dim:#9099a8;
-    --line:#2a2f3a; --accent:#7c5cff; --accent-ink:#ffffff;
-    --type-fuerza:#22c55e; --type-hiit:#f43f5e; --type-mixto:#3b82f6;
-    --shadow:0 10px 26px rgba(0,0,0,.35);
+    --bg:#fff6f4; --surface:#ffffff; --surface-2:#ffe7e3; --ink:#3a2530; --ink-dim:#8c6b78;
+    --line:#f4d9d3; --accent:#e0507e; --accent-ink:#ffffff;
+    --type-fuerza:#12977f; --type-hiit:#ef4361; --type-mixto:#8b5cf6;
+    --shadow:0 8px 22px rgba(58,37,48,.12);
     --font-display:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
     --font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
     --font-mono:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
-    color-scheme: dark;
+    color-scheme: light;
   }
   html[data-mode="modern"] .brand{ text-transform:none; letter-spacing:-.02em; }
   html[data-mode="modern"] .brand em{ letter-spacing:.02em; text-transform:none; font-weight:500; }
@@ -228,10 +235,10 @@
   html[data-mode="modern"] .vf-corner{ display:none; }
   html[data-mode="modern"] .modal-card{ border-radius:22px; }
   html[data-mode="modern"] .btn{ border-radius:14px; font-weight:700; }
-  html[data-mode="modern"] .btn.primary{ background:linear-gradient(135deg,#7c5cff,#5b8cff); border-color:transparent; }
+  html[data-mode="modern"] .btn.primary{ background:linear-gradient(135deg,#ee5586,#ff8f70); border-color:transparent; }
   html[data-mode="modern"] .field-input{ border-radius:12px; }
   html[data-mode="modern"] .choice-pill{ border-radius:12px; font-weight:600; }
-  html[data-mode="modern"] .choice-pill.on{ background:linear-gradient(135deg,#7c5cff,#5b8cff); border-color:transparent; }
+  html[data-mode="modern"] .choice-pill.on{ background:linear-gradient(135deg,#ee5586,#ff8f70); border-color:transparent; }
   html[data-mode="modern"] .card, html[data-mode="modern"] .principle-card, html[data-mode="modern"] .type-focus-card,
   html[data-mode="modern"] .stat-tile, html[data-mode="modern"] .target-tile, html[data-mode="modern"] .chart-card,
   html[data-mode="modern"] .link-row, html[data-mode="modern"] .lib-item, html[data-mode="modern"] .ex-item,
@@ -262,7 +269,7 @@
   .onb-hero-slide:nth-child(2){animation-delay:-6s, -6s;}
   .onb-hero-slide:nth-child(3){animation-delay:-12s, -12s;}
   .onb-hero-slide:nth-child(4){animation-delay:-18s, -18s;}
-  .onb-hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,8,14,.05) 0%, rgba(8,8,14,.25) 55%, var(--bg) 100%);}
+  .onb-hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(20,8,16,.05) 0%, rgba(20,8,16,.55) 78%, var(--bg) 100%);}
   .onb-hero-tagline{position:absolute;left:20px;right:20px;bottom:16px;font-family:var(--font-display);font-weight:800;font-size:clamp(19px,6vw,25px);color:#fff;letter-spacing:-.01em;text-shadow:0 2px 14px rgba(0,0,0,.55);}
   #onboardingSheet .sheet-header{padding-top:16px;}
   @keyframes onbCrossfade{0%{opacity:0;}4%{opacity:1;}21%{opacity:1;}25%{opacity:0;}100%{opacity:0;}}
@@ -279,7 +286,7 @@
   <header class="topbar">
     <div class="brand-row">
       <div>
-        <h1 class="brand">Protocolo 21<em id="brandSub">Calistenia de campo</em></h1>
+        <h1 class="brand"><span id="brandMain">Protocolo 21</span><em id="brandSub">Calistenia de campo</em></h1>
       </div>
       <button class="operator-btn" id="operatorBtn" type="button">
         <span class="dot" aria-hidden="true"></span>
@@ -469,6 +476,19 @@
   </div>
 </div>
 
+<!-- Reset / start over confirm modal -->
+<div class="modal-overlay" id="resetConfirmModal">
+  <div class="modal-card">
+    <button class="modal-close" id="resetConfirmClose" aria-label="Cerrar">&times;</button>
+    <div class="settings-inner">
+      <h2>Empezar de cero</h2>
+      <p class="field-note" style="margin-top:0;">Esto borra tu ficha de operador, tu progreso de los 21 días y tu historial de peso en este teléfono. No se puede deshacer.</p>
+      <button class="btn" id="resetConfirmCancel" type="button" style="margin-bottom:10px;">Cancelar</button>
+      <button class="btn primary" id="resetConfirmGo" type="button" style="background:var(--type-hiit);border-color:var(--type-hiit);">Sí, borrar y empezar de cero</button>
+    </div>
+  </div>
+</div>
+
 <!-- Exercise library sheet -->
 <section class="sheet" id="librarySheet" aria-hidden="true">
   <div class="sheet-header">
@@ -514,8 +534,8 @@
       {slug:"single-arm-dumbbell-row",series:3,reps:"10 por lado",rest:40},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:35},
       {slug:"bird-dog",series:3,reps:"10 por lado",rest:30},{slug:"side-plank",series:2,reps:"20–25 s por lado",rest:35},
       {slug:"hollow-body-hold",series:3,reps:"20–25 s",rest:35}]},
-    {day:8,protocol:"ESPALDA Y GLÚTEO",duration:38,type:"FUERZA",difficulty:3,brief:"Tirón de espalda en polea y trabajo de glúteo con mancuerna.",exercises:[
-      {slug:"lat-pulldown",series:4,reps:"10",rest:50},{slug:"seated-cable-row",series:4,reps:"10",rest:50},
+    {day:8,protocol:"ESPALDA Y GLÚTEO",duration:38,type:"FUERZA",difficulty:3,brief:"Espalda con mancuerna y glúteo con banco: tirón y cadera sin depender de máquinas.",exercises:[
+      {slug:"single-arm-dumbbell-row",series:4,reps:"10 por lado",rest:50},{slug:"bench-step-up",series:3,reps:"10 por pierna",rest:45},
       {slug:"dumbbell-rdl",series:3,reps:"10–12",rest:45},{slug:"hanging-knee-raise",series:3,reps:"8–10",rest:40}]},
     {day:9,protocol:"CIRCUITO TÁCTICO Y SACO",duration:32,type:"HIIT",difficulty:3,brief:"Fuerza explosiva con kettlebell y golpes al saco de boxeo.",exercises:[
       {slug:"kettlebell-push-press",series:4,reps:"8",rest:30},{slug:"heavy-bag-punches",series:4,reps:"30 s",rest:25},
@@ -534,9 +554,9 @@
       {slug:"dumbbell-goblet-squat",series:4,reps:"10 por minuto",rest:0},{slug:"push-up",series:4,reps:"8–10 por minuto",rest:0},
       {slug:"single-arm-dumbbell-row",series:4,reps:"8 por lado por minuto",rest:0},{slug:"kettlebell-swing",series:4,reps:"12 por minuto",rest:0},
       {slug:"mountain-climbers",series:4,reps:"20 por pierna por minuto",rest:0}]},
-    {day:14,protocol:"ESPALDA Y CORE",duration:32,type:"MIXTO",difficulty:3,brief:"Tirón de espalda y core profundo para cerrar la semana.",exercises:[
-      {slug:"lat-pulldown",series:3,reps:"10",rest:45},{slug:"seated-cable-row",series:3,reps:"10",rest:45},
-      {slug:"cable-woodchop",series:3,reps:"10 por lado",rest:30},{slug:"dead-bug",series:3,reps:"12 por lado",rest:25},
+    {day:14,protocol:"GLÚTEO Y CARDIO EN BANCO",duration:32,type:"MIXTO",difficulty:3,brief:"Glúteo y cardio con banco: sube el ritmo mientras fortaleces la cadera.",exercises:[
+      {slug:"bench-step-up",series:3,reps:"12 por pierna",rest:30},{slug:"weighted-box-step-up",series:3,reps:"10 por pierna",rest:35},
+      {slug:"mountain-climbers",series:3,reps:"20 por pierna",rest:25},{slug:"dead-bug",series:3,reps:"12 por lado",rest:25},
       {slug:"superman",series:3,reps:"12–15",rest:30}]},
     {day:15,protocol:"FUERZA MÁXIMA · GLÚTEO",duration:42,type:"FUERZA",difficulty:4,brief:"Sentadilla y peso muerto con barra, más peso muerto rumano con mancuerna.",exercises:[
       {slug:"barbell-back-squat",series:4,reps:"6",rest:70},{slug:"barbell-deadlift",series:3,reps:"6",rest:70},
@@ -544,16 +564,16 @@
     {day:16,protocol:"MÁXIMA INTENSIDAD Y SACO",duration:38,type:"HIIT",difficulty:5,brief:"El circuito más intenso hasta ahora: kettlebell, saco de boxeo y salto.",exercises:[
       {slug:"kettlebell-swing",series:4,reps:"20",rest:25},{slug:"heavy-bag-punches",series:4,reps:"45 s",rest:25},
       {slug:"burpee",series:4,reps:"10–12",rest:30},{slug:"jump-squat",series:4,reps:"10–12",rest:30}]},
-    {day:17,protocol:"EMPUJE-TIRÓN AVANZADO",duration:40,type:"FUERZA",difficulty:4,brief:"Empuje con tu propio peso, tirón en polea y brazo con mancuerna.",exercises:[
-      {slug:"push-up",series:4,reps:"12–15",rest:45},{slug:"lat-pulldown",series:4,reps:"10",rest:50},
+    {day:17,protocol:"EMPUJE-TIRÓN AVANZADO",duration:40,type:"FUERZA",difficulty:4,brief:"Empuje con tu propio peso, tirón con mancuerna y brazo con mancuerna.",exercises:[
+      {slug:"push-up",series:4,reps:"12–15",rest:45},{slug:"single-arm-dumbbell-row",series:4,reps:"10 por lado",rest:50},
       {slug:"hammer-curls",series:3,reps:"10",rest:40},{slug:"hanging-knee-raise",series:3,reps:"10–12",rest:45}]},
-    {day:18,protocol:"CIRCUITO COMPLETO",duration:38,type:"MIXTO",difficulty:4,brief:"Circuito de cuerpo completo con mancuerna, kettlebell y polea, sin pausas largas.",exercises:[
-      {slug:"dumbbell-goblet-squat",series:4,reps:"12",rest:25},{slug:"seated-cable-row",series:4,reps:"10",rest:25},
+    {day:18,protocol:"CIRCUITO COMPLETO",duration:38,type:"MIXTO",difficulty:4,brief:"Circuito de cuerpo completo con mancuerna, banco y kettlebell, sin pausas largas.",exercises:[
+      {slug:"dumbbell-goblet-squat",series:4,reps:"12",rest:25},{slug:"bench-step-up",series:4,reps:"10 por pierna",rest:25},
       {slug:"push-up",series:4,reps:"10",rest:25},{slug:"kettlebell-swing",series:4,reps:"15",rest:20},
       {slug:"shoulder-tap-plank",series:3,reps:"10 por lado",rest:20}]},
     {day:19,protocol:"SESIÓN LARGA",duration:45,type:"MIXTO",difficulty:4,brief:"La sesión más larga: sentadilla, empuje, tirón y glúteo con más series.",exercises:[
       {slug:"barbell-back-squat",series:4,reps:"10",rest:60},{slug:"push-up",series:4,reps:"12–15",rest:55},
-      {slug:"lat-pulldown",series:4,reps:"10",rest:55},{slug:"kettlebell-romanian-deadlift",series:3,reps:"10",rest:50},
+      {slug:"single-arm-dumbbell-row",series:4,reps:"10 por lado",rest:55},{slug:"kettlebell-romanian-deadlift",series:3,reps:"10",rest:50},
       {slug:"superman",series:3,reps:"12–15",rest:40},{slug:"front-plank",series:3,reps:"40–50 s",rest:40}]},
     {day:20,protocol:"ISOMÉTRICO Y FUERZA MÁXIMA",duration:38,type:"FUERZA",difficulty:5,brief:"Peso muerto con barra, sentadilla con mancuernas e isometría para cerrar con control.",exercises:[
       {slug:"barbell-deadlift",series:3,reps:"5",rest:75},{slug:"dumbbell-shoulder-squat",series:3,reps:"12",rest:50},
@@ -644,7 +664,9 @@
     "cable-woodchop":{name:"Cable Woodchop",video:"videos-equipo/Cable%20Woodchop.mp4",tags:["core"],cue:"Gira el torso llevando el agarre en diagonal de arriba hacia abajo, manteniendo la cadera estable."},
     "heavy-bag-punches":{name:"Heavy Bag Punches",video:"videos-equipo/Heavy%20Bag%20Punches.mp4",tags:["cardio","hombros","core"],cue:"Guardia arriba, gira la cadera con cada golpe y regresa rápido a guardia sin bajar las manos."},
     "dumbbell-rdl":{name:"Dumbbell Romanian Deadlift",video:"videos-equipo/Dumbbell%20Romanian%20Deadlift%20Hinge.mp4",tags:["glúteos","isquios"],cue:"Mancuernas pegadas a los muslos, empuja la cadera hacia atrás con piernas casi rectas y baja hasta sentir el estirón en isquios."},
-    "dumbbell-shoulder-squat":{name:"Dumbbell Shoulder Squat",video:"videos-equipo/Dumbbell%20Shoulder%20Squat.mp4",tags:["glúteos","piernas"],cue:"Mancuernas apoyadas sobre los hombros, baja en sentadilla manteniendo el pecho arriba y empuja desde los talones."}
+    "dumbbell-shoulder-squat":{name:"Dumbbell Shoulder Squat",video:"videos-equipo/Dumbbell%20Shoulder%20Squat.mp4",tags:["glúteos","piernas"],cue:"Mancuernas apoyadas sobre los hombros, baja en sentadilla manteniendo el pecho arriba y empuja desde los talones."},
+    "bench-step-up":{name:"Bench Step Up",video:"videos-equipo/Bench%20Step%20Up.mp4",tags:["glúteos","cardio"],cue:"Sube al banco apoyando todo el pie, extiende la cadera arriba del todo y baja controlado sin rebotar."},
+    "weighted-box-step-up":{name:"Weighted Box Step Up",video:"videos-equipo/Weighted%20Box%20Step%20Up.mp4",tags:["glúteos","cardio"],cue:"Con una mancuerna en cada mano, sube al cajón empujando con el talón y baja controlando la rodilla."}
   };
   Object.keys(EQUIP).forEach(function(k){ EQUIP[k].slug = k; EQUIP[k].category = "equipo"; DATA.exercises[k] = EQUIP[k]; });
   Object.assign(EX_ES, {
@@ -657,13 +679,72 @@
     "high-cable-curl":"Curl de bíceps en polea alta","leg-extension":"Extensión de cuádriceps en máquina","hack-squat":"Sentadilla hack",
     "lying-leg-curl":"Curl femoral acostado","glute-kickback-machine":"Patada de glúteo en máquina","machine-reverse-fly":"Aperturas posteriores en máquina",
     "cable-woodchop":"Leñador en polea",
-    "heavy-bag-punches":"Golpes al saco de boxeo","dumbbell-rdl":"Peso muerto rumano con mancuerna","dumbbell-shoulder-squat":"Sentadilla con mancuernas al hombro"
+    "heavy-bag-punches":"Golpes al saco de boxeo","dumbbell-rdl":"Peso muerto rumano con mancuerna","dumbbell-shoulder-squat":"Sentadilla con mancuernas al hombro",
+    "bench-step-up":"Step up en banco","weighted-box-step-up":"Step up con mancuernas en cajón"
   });
 
   function esc(s){
     return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
       return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
     });
+  }
+
+  // ---- mapa muscular (ilustración cuerpo frente/espalda por ejercicio) ----
+  var MUSCLE_TAG_MAP = {
+    "piernas":["legs"], "glúteos":["glutes"], "isquios":["hamstrings"],
+    "pecho":["chest"], "espalda":["back"], "hombros":["shoulders"],
+    "bíceps":["biceps"], "tríceps":["triceps"], "core":["abs"],
+    "oblicuos":["obliques","abs"], "agarre":["forearms"],
+    "full body":["chest","abs","legs","back","shoulders"]
+  };
+  var FRONT_REGIONS = [
+    {region:"shoulders", x:4, y:16, w:7, h:9, rx:3.5},
+    {region:"shoulders", x:29, y:16, w:7, h:9, rx:3.5},
+    {region:"chest", x:13, y:16, w:14, h:11, rx:3},
+    {region:"biceps", x:2, y:24, w:5, h:11, rx:2},
+    {region:"biceps", x:33, y:24, w:5, h:11, rx:2},
+    {region:"abs", x:16, y:28, w:8, h:12, rx:2},
+    {region:"obliques", x:12, y:28, w:3, h:12, rx:1.5},
+    {region:"obliques", x:25, y:28, w:3, h:12, rx:1.5},
+    {region:"forearms", x:1, y:35, w:4, h:11, rx:2},
+    {region:"forearms", x:35, y:35, w:4, h:11, rx:2},
+    {region:"legs", x:13, y:43, w:6, h:17, rx:2},
+    {region:"legs", x:21, y:43, w:6, h:17, rx:2},
+    {region:"legs", x:14, y:62, w:4, h:15, rx:2},
+    {region:"legs", x:22, y:62, w:4, h:15, rx:2}
+  ];
+  var BACK_REGIONS = [
+    {region:"back", x:13, y:16, w:14, h:13, rx:3},
+    {region:"triceps", x:2, y:24, w:5, h:11, rx:2},
+    {region:"triceps", x:33, y:24, w:5, h:11, rx:2},
+    {region:"forearms", x:1, y:35, w:4, h:11, rx:2},
+    {region:"forearms", x:35, y:35, w:4, h:11, rx:2},
+    {region:"glutes", x:13, y:41, w:14, h:9, rx:4},
+    {region:"hamstrings", x:13, y:51, w:6, h:14, rx:2},
+    {region:"hamstrings", x:21, y:51, w:6, h:14, rx:2},
+    {region:"hamstrings", x:14, y:66, w:4, h:14, rx:2},
+    {region:"hamstrings", x:22, y:66, w:4, h:14, rx:2}
+  ];
+  function activeMuscleRegions(tags){
+    var set = {};
+    (tags||[]).forEach(function(t){ (MUSCLE_TAG_MAP[t]||[]).forEach(function(r){ set[r] = true; }); });
+    return set;
+  }
+  function bodySvg(regions, active){
+    var shapes = regions.map(function(r){
+      var on = active[r.region];
+      return '<rect class="mr' + (on ? " on" : "") + '" x="' + r.x + '" y="' + r.y + '" width="' + r.w + '" height="' + r.h + '" rx="' + r.rx + '"/>';
+    }).join("");
+    return '<svg class="muscle-svg" viewBox="0 0 40 84"><circle class="mr-head" cx="20" cy="8" r="6"/>' + shapes + '</svg>';
+  }
+  function muscleIconHtml(tags){
+    var active = activeMuscleRegions(tags);
+    return '<span class="ex-muscle-icon">' + bodySvg(FRONT_REGIONS, active) + bodySvg(BACK_REGIONS, active) + '</span>';
+  }
+  function muscleDescText(tags){
+    var t = (tags || []).filter(Boolean);
+    if(!t.length) return "Ejercicio de cuerpo completo.";
+    return "Trabaja " + t.join(" y ") + ".";
   }
 
   function loadState(){
@@ -798,6 +879,7 @@
           (ex.rest > 0 ? '<span>Descanso <b>' + ex.rest + 's</b></span>' : '<span>Sin descanso</span>') +
         '</div>' +
         (info.cue ? '<div class="ex-cue">' + esc(info.cue) + '</div>' : "") +
+        '<div class="ex-muscle-row">' + muscleIconHtml(info.tags) + '<span class="ex-muscle-desc">' + esc(muscleDescText(info.tags)) + '</span></div>' +
         '<div class="ex-actions">' +
           '<button type="button" class="check-toggle' + (checked ? " on" : "") + '" data-idx="' + idx + '">' +
             '<span class="check-box"></span><span>' + (checked ? "Completado" : "Marcar completo") + '</span>' +
@@ -1105,9 +1187,10 @@
     if(!state.mode) return; // sin modo elegido aún: se queda con el skin moderno por defecto
     var modern = state.mode === "gym";
     document.documentElement.setAttribute("data-mode", modern ? "modern" : "tactical");
-    document.getElementById("brandSub").textContent = modern ? "Rutina de gym" : "Calistenia de campo";
+    document.getElementById("brandMain").textContent = modern ? "Ella Fit" : "Protocolo 21";
+    document.getElementById("brandSub").textContent = modern ? "21 días de entrenamiento" : "Calistenia de campo";
     document.getElementById("navHomeLabel").textContent = modern ? "Rutina" : "Misión";
-    document.title = modern ? "Protocolo 21 · GYM" : "Protocolo 21";
+    document.title = modern ? "Ella Fit · 21 días" : "Protocolo 21";
   }
   function enterApp(){
     applyModeChrome();
@@ -1118,6 +1201,27 @@
     updateProfileDot();
     switchTab("home");
   }
+
+  // ---- volver al onboarding / empezar de cero ----
+  function openResetConfirm(){ document.getElementById("resetConfirmModal").classList.add("open"); }
+  function closeResetConfirm(){ document.getElementById("resetConfirmModal").classList.remove("open"); }
+  document.getElementById("resetConfirmClose").addEventListener("click", closeResetConfirm);
+  document.getElementById("resetConfirmCancel").addEventListener("click", closeResetConfirm);
+  document.getElementById("resetConfirmModal").addEventListener("click", function(e){ if(e.target === this) closeResetConfirm(); });
+  document.getElementById("resetConfirmGo").addEventListener("click", function(){
+    state = { name:"Recluta", mode:null, progress:{ calistenia:{}, gym:{} }, profile:null, weightLog:[] };
+    saveState();
+    closeResetConfirm();
+    document.documentElement.setAttribute("data-mode", "modern");
+    document.getElementById("brandMain").textContent = "Protocolo 21";
+    document.getElementById("brandSub").textContent = "Calistenia de campo";
+    document.title = "Protocolo 21";
+    switchTab("home");
+    renderTopStats();
+    renderDayList();
+    updateProfileDot();
+    openOnboarding();
+  });
 
   // ---- weigh-in ----
   function openWeighin(){
@@ -1170,7 +1274,8 @@
       '</div>' +
       '<div class="link-row" id="openLibraryBtn"><span>Biblioteca de ejercicios</span><span>&rarr;</span></div>' +
       '<div class="link-row" id="editProfileBtn"><span>Editar datos de perfil</span><span>&rarr;</span></div>' +
-      '<div class="link-row" id="switchModeBtn"><span>Cambiar a ' + (state.mode === "gym" ? "Calistenia Militar" : "GYM") + '</span><span>&rarr;</span></div>';
+      '<div class="link-row" id="switchModeBtn"><span>Cambiar a ' + (state.mode === "gym" ? "Calistenia Militar" : "GYM") + '</span><span>&rarr;</span></div>' +
+      '<div class="link-row" id="resetOnboardingBtn"><span>Volver al onboarding y empezar de cero</span><span>&rarr;</span></div>';
     var wb = document.getElementById("doWeighinBtn"); if(wb) wb.addEventListener("click", openWeighin);
     document.getElementById("openLibraryBtn").addEventListener("click", openLibrary);
     document.getElementById("editProfileBtn").addEventListener("click", openOnboarding);
@@ -1179,6 +1284,7 @@
       saveState();
       enterApp();
     });
+    document.getElementById("resetOnboardingBtn").addEventListener("click", openResetConfirm);
     updateProfileDot();
   }
 
