@@ -223,11 +223,7 @@
   html[data-mode="modern"] .badge{ border-radius:999px; }
   html[data-mode="modern"] .day-card{ clip-path:none; border-radius:20px; }
   html[data-mode="modern"] .day-card .type-bar{ display:none; }
-  html[data-mode="modern"] .day-card-scrim{ background:linear-gradient(195deg, rgba(8,8,14,.12) 0%, rgba(8,8,14,.92) 100%); }
-  html[data-mode="modern"] .day-card-grad{ position:absolute; inset:0; z-index:0; }
-  html[data-mode="modern"] .day-card-grad.grad-fuerza{ background:linear-gradient(135deg,#0f5132,#22c55e); }
-  html[data-mode="modern"] .day-card-grad.grad-hiit{ background:linear-gradient(135deg,#7f1d3a,#f43f5e); }
-  html[data-mode="modern"] .day-card-grad.grad-mixto{ background:linear-gradient(135deg,#1e3a8a,#3b82f6); }
+  html[data-mode="modern"] .day-card-scrim{ background:linear-gradient(195deg, rgba(8,8,14,.15) 0%, rgba(8,8,14,.9) 100%); }
   html[data-mode="modern"] .viewfinder{ border-radius:20px; }
   html[data-mode="modern"] .vf-corner{ display:none; }
   html[data-mode="modern"] .modal-card{ border-radius:22px; }
@@ -722,18 +718,14 @@
   function renderDayList(){
     var list = document.getElementById("dayList");
     list.innerHTML = "";
-    var modern = state.mode === "gym";
     activeDays().forEach(function(d){
       var done = isDayDone(d.day);
       var card = document.createElement("button");
       card.type = "button";
       card.className = "day-card" + (done ? " done" : "");
       card.setAttribute("aria-label", "Día " + d.day + ", " + d.protocol);
-      var mediaHtml = modern
-        ? '<span class="day-card-grad grad-' + d.type.toLowerCase() + '"></span>'
-        : '<img class="day-card-img" src="' + TYPE_IMAGE[d.type] + '" alt="" loading="lazy">';
       card.innerHTML =
-        mediaHtml +
+        '<img class="day-card-img" src="' + TYPE_IMAGE[d.type] + '" alt="" loading="lazy">' +
         '<span class="day-card-scrim"></span>' +
         '<span class="type-bar" style="background:' + TYPE_COLOR[d.type] + '"></span>' +
         '<span class="body">' +
