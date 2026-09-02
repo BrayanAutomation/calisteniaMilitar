@@ -767,7 +767,7 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if(raw) s = JSON.parse(raw);
     }catch(e){}
-    if(!s) s = { name:"Recluta", progress:{} };
+    if(!s) s = { name:"", progress:{} };
     if(!s.profile) s.profile = null;
     if(!s.weightLog) s.weightLog = [];
     if(!s.progress) s.progress = {};
