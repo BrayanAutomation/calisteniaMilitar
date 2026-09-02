@@ -432,7 +432,7 @@
     <div class="modesel-cards">
       <button type="button" class="modesel-card" id="modeCardCalistenia">
         <span class="modesel-art" aria-hidden="true">
-          <img src="images/modeselect-calistenia.jpg" alt="" loading="lazy">
+          <img src="images/modeselect-calistenia.jpg" alt="" loading="lazy" style="object-position:50% 62%;">
           <span class="modesel-art-scrim"></span>
         </span>
         <span class="modesel-card-body">
@@ -442,7 +442,7 @@
       </button>
       <button type="button" class="modesel-card" id="modeCardGym">
         <span class="modesel-art" aria-hidden="true">
-          <img src="images/modeselect-gym.jpg" alt="" loading="lazy">
+          <img src="images/modeselect-gym.jpg" alt="" loading="lazy" style="object-position:50% 22%;">
           <span class="modesel-art-scrim"></span>
         </span>
         <span class="modesel-card-body">
@@ -571,6 +571,7 @@
   var TYPE_COLOR = { FUERZA:"var(--type-fuerza)", HIIT:"var(--type-hiit)", MIXTO:"var(--type-mixto)" };
   var TYPE_IMAGE = { FUERZA:"images/FUERZA.webp", HIIT:"images/HIIT.webp", MIXTO:"images/MIXTO.webp" };
   var GYM_TYPE_IMAGE = { FUERZA:"images/gym-fuerza.jpg", HIIT:"images/gym-hiit.jpg", MIXTO:"images/gym-mixto.jpg" };
+  var GYM_TYPE_IMAGE_POS = { FUERZA:"50% 28%", HIIT:"50% 24%", MIXTO:"50% 26%" };
   var EX_ES = {
     "bodyweight-squat":"Sentadilla con peso corporal",
     "alternating-reverse-lunge":"Zancada inversa alterna",
@@ -749,9 +750,11 @@
       card.type = "button";
       card.className = "day-card" + (done ? " done" : "");
       card.setAttribute("aria-label", "Día " + d.day + ", " + d.protocol);
-      var imgMap = state.mode === "gym" ? GYM_TYPE_IMAGE : TYPE_IMAGE;
+      var modernList = state.mode === "gym";
+      var imgMap = modernList ? GYM_TYPE_IMAGE : TYPE_IMAGE;
+      var posStyle = modernList ? ' style="object-position:' + GYM_TYPE_IMAGE_POS[d.type] + ';"' : '';
       card.innerHTML =
-        '<img class="day-card-img" src="' + imgMap[d.type] + '" alt="" loading="lazy">' +
+        '<img class="day-card-img" src="' + imgMap[d.type] + '"' + posStyle + ' alt="" loading="lazy">' +
         '<span class="day-card-scrim"></span>' +
         '<span class="type-bar" style="background:' + TYPE_COLOR[d.type] + '"></span>' +
         '<span class="body">' +
