@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-mode="modern">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="Protocolo 21">
 <title>Protocolo 21</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
     --bg:#eae3ce; --surface:#f7f2e5; --surface-2:#ddd4b4; --ink:#2a2418; --ink-dim:#6f6650;
@@ -202,6 +202,62 @@
   .lib-item{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);background:var(--surface);margin:0 16px 9px;}
   .lib-item:first-child{margin-top:16px;}
   .lib-item .info{flex:1;min-width:0;}
+
+  /* ================= MODERN THEME (onboarding, selector de modo, sesión GYM) ================= */
+  html[data-mode="modern"]{
+    --bg:#0f1117; --surface:#171a21; --surface-2:#1f232c; --ink:#f4f5f8; --ink-dim:#9099a8;
+    --line:#2a2f3a; --accent:#7c5cff; --accent-ink:#ffffff;
+    --type-fuerza:#22c55e; --type-hiit:#f43f5e; --type-mixto:#3b82f6;
+    --shadow:0 10px 26px rgba(0,0,0,.35);
+    --font-display:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'Plus Jakarta Sans',-apple-system,'Segoe UI',sans-serif;
+    color-scheme: dark;
+  }
+  html[data-mode="modern"] .brand{ text-transform:none; letter-spacing:-.02em; }
+  html[data-mode="modern"] .brand em{ letter-spacing:.02em; text-transform:none; font-weight:500; }
+  html[data-mode="modern"] .operator-btn,
+  html[data-mode="modern"] .video-btn,
+  html[data-mode="modern"] .lib-filter,
+  html[data-mode="modern"] .type-chip,
+  html[data-mode="modern"] .badge{ border-radius:999px; }
+  html[data-mode="modern"] .day-card{ clip-path:none; border-radius:20px; }
+  html[data-mode="modern"] .day-card .type-bar{ display:none; }
+  html[data-mode="modern"] .day-card-scrim{ background:linear-gradient(195deg, rgba(8,8,14,.12) 0%, rgba(8,8,14,.92) 100%); }
+  html[data-mode="modern"] .day-card-grad{ position:absolute; inset:0; z-index:0; }
+  html[data-mode="modern"] .day-card-grad.grad-fuerza{ background:linear-gradient(135deg,#0f5132,#22c55e); }
+  html[data-mode="modern"] .day-card-grad.grad-hiit{ background:linear-gradient(135deg,#7f1d3a,#f43f5e); }
+  html[data-mode="modern"] .day-card-grad.grad-mixto{ background:linear-gradient(135deg,#1e3a8a,#3b82f6); }
+  html[data-mode="modern"] .viewfinder{ border-radius:20px; }
+  html[data-mode="modern"] .vf-corner{ display:none; }
+  html[data-mode="modern"] .modal-card{ border-radius:22px; }
+  html[data-mode="modern"] .btn{ border-radius:14px; font-weight:700; }
+  html[data-mode="modern"] .btn.primary{ background:linear-gradient(135deg,#7c5cff,#5b8cff); border-color:transparent; }
+  html[data-mode="modern"] .field-input{ border-radius:12px; }
+  html[data-mode="modern"] .choice-pill{ border-radius:12px; font-weight:600; }
+  html[data-mode="modern"] .choice-pill.on{ background:linear-gradient(135deg,#7c5cff,#5b8cff); border-color:transparent; }
+  html[data-mode="modern"] .card, html[data-mode="modern"] .principle-card, html[data-mode="modern"] .type-focus-card,
+  html[data-mode="modern"] .stat-tile, html[data-mode="modern"] .target-tile, html[data-mode="modern"] .chart-card,
+  html[data-mode="modern"] .link-row, html[data-mode="modern"] .lib-item, html[data-mode="modern"] .ex-item,
+  html[data-mode="modern"] .brief-card, html[data-mode="modern"] .weighin-banner{ border-radius:16px; }
+  html[data-mode="modern"] .check-box{ border-radius:7px; }
+
+  /* ---- selector de modo (siempre con el look moderno, aparece tras el onboarding) ---- */
+  .modesel-inner{padding:calc(env(safe-area-inset-top,0px) + 30px) 20px calc(env(safe-area-inset-bottom,0px) + 28px);height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;}
+  .modesel-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  .modesel-title{font-family:var(--font-display);font-size:clamp(26px,8vw,34px);font-weight:800;margin-top:8px;letter-spacing:-.02em;}
+  .modesel-sub{font-size:13.5px;color:var(--ink-dim);margin-top:8px;line-height:1.5;}
+  .modesel-cards{display:flex;flex-direction:column;gap:14px;margin-top:26px;}
+  .modesel-card{display:flex;flex-direction:column;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:0;overflow:hidden;cursor:pointer;width:100%;}
+  .modesel-card:active{transform:scale(.98);}
+  .modesel-art{display:flex;align-items:center;justify-content:center;height:132px;}
+  .modesel-art svg{width:68px;height:68px;fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;}
+  .modesel-art-cal{background:linear-gradient(135deg,#6d28d9,#db2777);}
+  .modesel-art-gym{background:linear-gradient(135deg,#ea580c,#facc15);}
+  .modesel-card-body{padding:16px 18px 20px;}
+  .modesel-card-title{display:block;font-family:var(--font-display);font-weight:800;font-size:17px;}
+  .modesel-card-desc{display:block;font-size:12.5px;color:var(--ink-dim);margin-top:5px;line-height:1.45;}
+  .modesel-foot{font-size:11.5px;color:var(--ink-dim);text-align:center;margin-top:20px;line-height:1.4;}
 </style>
 </head>
 <body>
@@ -210,7 +266,7 @@
   <header class="topbar">
     <div class="brand-row">
       <div>
-        <h1 class="brand">Protocolo 21<em>Calistenia de campo</em></h1>
+        <h1 class="brand">Protocolo 21<em id="brandSub">Calistenia de campo</em></h1>
       </div>
       <button class="operator-btn" id="operatorBtn" type="button">
         <span class="dot" aria-hidden="true"></span>
@@ -239,7 +295,7 @@
 <nav class="bottom-nav" id="bottomNav">
   <button class="nav-btn active" id="navHome" type="button" data-tab="home">
     <svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7M6 10v9h5v-5h2v5h5v-9"/></svg>
-    Misión
+    <span id="navHomeLabel">Misión</span>
   </button>
   <button class="nav-btn" id="navNutrition" type="button" data-tab="nutrition">
     <svg viewBox="0 0 24 24"><path d="M6 3v8a3 3 0 0 0 6 0V3M9 11v10M18 3c-2 2-2 5-2 7a2 2 0 0 0 2 2v8"/></svg>
@@ -346,6 +402,36 @@
   </div>
 </section>
 
+<!-- Mode select (calistenia militar vs gym) -->
+<section class="sheet" id="modeSelectSheet" aria-hidden="true">
+  <div class="modesel-inner">
+    <div class="modesel-eyebrow">Último paso</div>
+    <h2 class="modesel-title">¿Cómo quieres entrenar?</h2>
+    <p class="modesel-sub">Elige tu camino para los próximos 21 días. Puedes cambiarlo cuando quieras desde tu perfil.</p>
+    <div class="modesel-cards">
+      <button type="button" class="modesel-card" id="modeCardCalistenia">
+        <span class="modesel-art modesel-art-cal" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><line x1="15" y1="18" x2="85" y2="18"/><circle cx="50" cy="32" r="8"/><line x1="50" y1="40" x2="50" y2="68"/><line x1="50" y1="18" x2="34" y2="40"/><line x1="50" y1="18" x2="66" y2="40"/><line x1="50" y1="68" x2="37" y2="90"/><line x1="50" y1="68" x2="63" y2="90"/></svg>
+        </span>
+        <span class="modesel-card-body">
+          <span class="modesel-card-title">Calistenia Militar</span>
+          <span class="modesel-card-desc">21 días con tu propio peso corporal. Sin equipo, en cualquier lugar.</span>
+        </span>
+      </button>
+      <button type="button" class="modesel-card" id="modeCardGym">
+        <span class="modesel-art modesel-art-gym" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><rect x="8" y="42" width="10" height="16" rx="2"/><rect x="18" y="36" width="8" height="28" rx="2"/><rect x="30" y="47" width="40" height="6" rx="3"/><rect x="74" y="36" width="8" height="28" rx="2"/><rect x="82" y="42" width="10" height="16" rx="2"/></svg>
+        </span>
+        <span class="modesel-card-body">
+          <span class="modesel-card-title">GYM</span>
+          <span class="modesel-card-desc">21 días combinando pesas, máquinas y calistenia dentro del gimnasio.</span>
+        </span>
+      </button>
+    </div>
+    <p class="modesel-foot">Tu ficha de operador y tus metas de nutrición se mantienen iguales en ambos modos.</p>
+  </div>
+</section>
+
 <!-- Weigh-in quick modal -->
 <div class="modal-overlay" id="weighinModal">
   <div class="modal-card">
@@ -379,6 +465,90 @@
 (function(){
   "use strict";
   var DATA = {"exercises":{"bodyweight-squat":{"slug":"bodyweight-squat","name":"Bodyweight Squat","video":"videos/Bodyweight%20Squats.mp4","tags":["piernas","glúteos"],"cue":"Pies al ancho de hombros, baja como si te sentaras en una silla y empuja desde los talones al subir."},"alternating-reverse-lunge":{"slug":"alternating-reverse-lunge","name":"Alternating Reverse Lunge","video":"videos/Alternating%20Reverse%20Lunge.mp4","tags":["piernas","equilibrio"],"cue":"Paso largo hacia atrás, rodilla trasera casi al piso, vuelve al centro y alterna de pierna."},"assisted-pistol-squat":{"slug":"assisted-pistol-squat","name":"Assisted Pistol Squat","video":"videos/Assisted%20Pistol%20Squat.mp4","tags":["piernas","equilibrio"],"cue":"Sujétate de un punto de apoyo y baja en una pierna manteniendo la otra extendida al frente."},"wall-sit":{"slug":"wall-sit","name":"Wall Sit","video":"videos/Wallsit.mp4","tags":["piernas","resistencia"],"cue":"Espalda pegada a la pared, rodillas a 90°, sostén la posición sin apoyar las manos."},"glute-bridge":{"slug":"glute-bridge","name":"Glute Bridge","video":"videos/Glute%20Bridge.mp4","tags":["glúteos","isquios"],"cue":"Boca arriba, rodillas dobladas, empuja con los talones y aprieta el glúteo arriba."},"high-knees":{"slug":"high-knees","name":"High Knees","video":"videos/High%20Knees.mp4","tags":["cardio","piernas"],"cue":"Trota en el sitio llevando las rodillas a la altura de la cadera lo más rápido que puedas."},"diamond-push-up":{"slug":"diamond-push-up","name":"Diamond Push Up","video":"videos/Diamond%20Pushup.mp4","tags":["tríceps","pecho"],"cue":"Manos juntas bajo el pecho formando un diamante, baja controlado y empuja fuerte."},"lateral-step-march":{"slug":"lateral-step-march","name":"Lateral Step March","video":"videos/lateral%20step%20march.mp4","tags":["cardio","piernas"],"cue":"Da pasos amplios de lado a lado marcando el ritmo con los brazos."},"jumping-jacks":{"slug":"jumping-jacks","name":"Jumping Jacks","video":"videos/Jump%20jacks.mp4","tags":["cardio","full body"],"cue":"Salta abriendo piernas y brazos a la vez, y cierra al aterrizar."},"jump-squat":{"slug":"jump-squat","name":"Jump Squat","video":"videos/Jump%20Squats.mp4","tags":["piernas","potencia"],"cue":"Baja a sentadilla y explota hacia arriba en un salto; aterriza suave y repite."},"burpee":{"slug":"burpee","name":"Burpee","video":"videos/Burpees.mp4","tags":["full body","cardio"],"cue":"De pie a plancha, un push-up opcional, vuelve a pie y remata con un salto."},"mountain-climbers":{"slug":"mountain-climbers","name":"Mountain Climbers","video":"videos/Mountain%20Climbers%20-%20Trim.mp4","tags":["core","cardio"],"cue":"En plancha alta, lleva una rodilla al pecho y alterna rápido sin perder la cadera."},"push-up":{"slug":"push-up","name":"Push-Up","video":"videos/Push%20Ups.mp4","tags":["pecho","tríceps"],"cue":"Manos al ancho de hombros, baja el pecho casi al piso y empuja en línea recta."},"walkout-to-plank":{"slug":"walkout-to-plank","name":"Walkout to Plank","video":"videos/Plank%20Walk%20Outs.mp4","tags":["full body","core"],"cue":"De pie, camina con las manos hasta plancha alta y regresa caminando a los pies."},"front-plank":{"slug":"front-plank","name":"Front Plank","video":null,"tags":["core","hombros"],"cue":"Antebrazos y puntas de pie en el piso, cuerpo en línea recta sin dejar caer la cadera."},"side-plank":{"slug":"side-plank","name":"Side Plank","video":"videos/Side%20Plank.mp4","tags":["core","oblicuos"],"cue":"Apoya un antebrazo y el borde del pie, eleva la cadera y sostén el cuerpo en línea."},"plank-to-push-up":{"slug":"plank-to-push-up","name":"Plank to Push-Up","video":"videos/Plank%20to%20Push%20Up.mp4","tags":["core","hombros"],"cue":"Alterna entre plancha en antebrazos y plancha alta apoyando una mano a la vez."},"shoulder-tap-plank":{"slug":"shoulder-tap-plank","name":"Shoulder Tap Plank","video":"videos/Plank%20Shoulder%20Taps.mp4","tags":["core","hombros"],"cue":"En plancha alta, toca el hombro contrario con cada mano sin mover la cadera."},"plank-with-arm-reach":{"slug":"plank-with-arm-reach","name":"Plank with Arm Reach","video":"videos/Plank%20Up.mp4","tags":["core","estabilidad"],"cue":"En plancha alta, extiende un brazo al frente y alterna manteniendo el tronco quieto."},"hollow-body-hold":{"slug":"hollow-body-hold","name":"Hollow Body Hold","video":"videos/Hollow%20Hold.mp4","tags":["core"],"cue":"Boca arriba, eleva hombros y piernas del piso pegando la zona baja de la espalda al suelo."},"bird-dog":{"slug":"bird-dog","name":"Bird Dog","video":"videos/Bird%20Dog.mp4","tags":["core","estabilidad"],"cue":"En cuatro apoyos, extiende brazo y pierna opuestos sin mover la espalda, alterna lados."},"superman":{"slug":"superman","name":"Superman","video":"videos/Superman%20Hold.mp4","tags":["espalda","glúteos"],"cue":"Boca abajo, eleva brazos y piernas a la vez apretando espalda y glúteos."},"sumo-squat":{"slug":"sumo-squat","name":"Sumo Squat","video":"videos/sumo-squat.mp4","tags":[],"cue":""},"cossack-squat":{"slug":"cossack-squat","name":"Cossack Squat","video":"videos/COSSACK%20SQUATS.mp4","tags":["piernas"],"cue":"Pies muy abiertos, lleva el peso a un lado flexionando esa rodilla con la otra pierna extendida."},"star-jump":{"slug":"star-jump","name":"Star Jump","video":"videos/star%20jump.mp4","tags":["cardio"],"cue":"Desde sentadilla, salta abriendo brazos y piernas como una estrella y aterriza suave."},"marine-squat-thrust":{"slug":"marine-squat-thrust","name":"Marine Squat Thrust","video":"videos/thrust.mp4","tags":["full body","cardio"],"cue":"De sentadilla, lanza los pies atrás a plancha y regresa de un salto a sentadilla."},"bicycle-crunch":{"slug":"bicycle-crunch","name":"Bicycle Crunch","video":"videos/BYCYLES.mp4","tags":["core"],"cue":"Boca arriba, lleva el codo a la rodilla contraria alternando en un movimiento de pedaleo."},"leg-raise":{"slug":"leg-raise","name":"Leg Raise","video":"videos/leg%20raises.mp4","tags":["core"],"cue":"Boca arriba, piernas extendidas, sube y baja sin que la espalda baja se despegue del piso."},"pike-push-up":{"slug":"pike-push-up","name":"Pike Push-Up","video":"videos/pike-pushup.mp4","tags":["hombros","tríceps"],"cue":"En V invertida, baja la cabeza hacia el piso doblando los codos y empuja de vuelta."},"russian-twist":{"slug":"russian-twist","name":"Russian Twist","video":"videos/Russian%20Twist.mp4","tags":["core","oblicuos"],"cue":"Sentado con el tronco inclinado atrás, gira de lado a lado tocando el piso con las manos."},"v-up":{"slug":"v-up","name":"V-Up","video":"videos/vups.mp4","tags":["core"],"cue":"Boca arriba, sube brazos y piernas rectos a la vez formando una V y baja controlado."},"hindu-push-up":{"slug":"hindu-push-up","name":"Hindu Push-Up","video":"videos/HINDU.mp4","tags":["full body"],"cue":"Desde perro boca abajo, desliza el pecho hacia adelante y termina mirando hacia arriba."},"crunch":{"slug":"crunch","name":"Crunch","video":null,"tags":["core"],"cue":"Boca arriba, rodillas dobladas, sube la espalda alta sin tirar del cuello."},"reverse-crunch":{"slug":"reverse-crunch","name":"Reverse Crunch","video":"videos/reverse%20crunch.mp4","tags":["core"],"cue":"Boca arriba, lleva las rodillas hacia el pecho elevando la cadera del piso."},"hanging-knee-raise":{"slug":"hanging-knee-raise","name":"Hanging Knee Raise","video":"videos/Hanging%20Knee%20Raise.mp4","tags":["core","agarre"],"cue":"Colgado de la barra, sube las rodillas al pecho sin balancear el cuerpo."},"dead-hang":{"slug":"dead-hang","name":"Dead Hang","video":"videos/dead-hang_zaeveo.mp4","tags":["espalda","agarre"],"cue":"Cuélgate de la barra con brazos extendidos y hombros activos; sostén la posición."},"inverted-row":{"slug":"inverted-row","name":"Inverted Row","video":"videos/Pronated%20Body%20Row.mp4","tags":["espalda","bíceps"],"cue":"Cuerpo inclinado bajo una barra o mesa firme; tira del pecho hacia el punto de apoyo."},"negative-pull-up":{"slug":"negative-pull-up","name":"Negative Pull-Up","video":"videos/Negative%20Pull%20Up.mp4","tags":["espalda","bíceps"],"cue":"Empieza con la barbilla sobre la barra y baja lo más lento posible."},"dead-bug":{"slug":"dead-bug","name":"Dead Bug","video":"videos/deadbug.mp4","tags":["core","estabilidad"],"cue":"Boca arriba, brazos y rodillas a 90°, extiende el lado contrario sin arquear la espalda."},"assisted-bulgarian-split-squat":{"slug":"assisted-bulgarian-split-squat","name":"Assisted Bulgarian Split Squat","video":null,"tags":["piernas","equilibrio"],"cue":"Pie trasero apoyado en una silla o banco; baja controlando la rodilla delantera."}},"days":[{"day":1,"protocol":"PROTOCOLO ESTÁNDAR","duration":30,"type":"FUERZA","difficulty":1,"brief":"Primer contacto con el programa: técnica básica y activación de todo el cuerpo antes de subir la carga.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":40},{"slug":"diamond-push-up","series":3,"reps":"6-8","rest":45},{"slug":"front-plank","series":3,"reps":"20–30 s","rest":40}]},{"day":2,"protocol":"PROTOCOLO MOVILIZACIÓN","duration":28,"type":"MIXTO","difficulty":1,"brief":"Trabajo de bajo impacto para mover articulaciones y afinar la ejecución sin fatigar de más.","exercises":[{"slug":"diamond-push-up","series":3,"reps":"6-8","rest":45},{"slug":"alternating-reverse-lunge","series":3,"reps":"8–10 por pierna","rest":45},{"slug":"push-up","series":3,"reps":"6–10","rest":45},{"slug":"dead-bug","series":3,"reps":"10 por lado","rest":35}]},{"day":3,"protocol":"PROTOCOLO BARRA INICIAL","duration":30,"type":"FUERZA","difficulty":2,"brief":"Primer acercamiento a la barra: agarre y tirón junto con trabajo de espalda y core.","exercises":[{"slug":"dead-hang","series":3,"reps":"15–25 s","rest":45},{"slug":"inverted-row","series":3,"reps":"6–8","rest":45},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":40},{"slug":"side-plank","series":2,"reps":"20 s por lado","rest":35}]},{"day":4,"protocol":"PROTOCOLO HIIT SUAVE","duration":25,"type":"HIIT","difficulty":2,"brief":"Circuito corto para elevar pulsaciones sin perder el control de la técnica.","exercises":[{"slug":"high-knees","series":4,"reps":"30 s","rest":20},{"slug":"bodyweight-squat","series":4,"reps":"12","rest":25},{"slug":"jumping-jacks","series":4,"reps":"20–25","rest":25},{"slug":"crunch","series":4,"reps":"15","rest":20}]},{"day":5,"protocol":"PROTOCOLO FUERZA BÁSICA","duration":32,"type":"FUERZA","difficulty":2,"brief":"Más volumen en los mismos patrones básicos para consolidar fuerza general.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"15","rest":45},{"slug":"push-up","series":3,"reps":"8–12","rest":45},{"slug":"inverted-row","series":3,"reps":"8–10","rest":45},{"slug":"front-plank","series":3,"reps":"30 s","rest":35}]},{"day":6,"protocol":"PROTOCOLO HIIT BÁSICO","duration":32,"type":"HIIT","difficulty":3,"brief":"Cardio y fuerza ligera combinados en un circuito continuo.","exercises":[{"slug":"high-knees","series":4,"reps":"30 s","rest":20},{"slug":"jump-squat","series":4,"reps":"8–10","rest":25},{"slug":"push-up","series":3,"reps":"8–10","rest":30},{"slug":"walkout-to-plank","series":3,"reps":"6–8","rest":30},{"slug":"mountain-climbers","series":4,"reps":"20 por pierna","rest":20}]},{"day":7,"protocol":"PROTOCOLO CONTROL","duration":28,"type":"MIXTO","difficulty":2,"brief":"Bajamos el ritmo para trabajar isometría, equilibrio y control corporal.","exercises":[{"slug":"wall-sit","series":3,"reps":"30–40 s","rest":40},{"slug":"glute-bridge","series":3,"reps":"12–15","rest":35},{"slug":"bird-dog","series":3,"reps":"10 por lado","rest":30},{"slug":"side-plank","series":2,"reps":"20–25 s por lado","rest":35},{"slug":"hollow-body-hold","series":3,"reps":"20–25 s","rest":35}]},{"day":8,"protocol":"PROTOCOLO FUERZA INTERMEDIA","duration":38,"type":"FUERZA","difficulty":3,"brief":"Sube el volumen de fuerza full body, exigiendo más de cada serie.","exercises":[{"slug":"assisted-bulgarian-split-squat","series":3,"reps":"8–10 por pierna","rest":50},{"slug":"push-up","series":4,"reps":"8–12","rest":45},{"slug":"inverted-row","series":4,"reps":"8–10","rest":45},{"slug":"glute-bridge","series":3,"reps":"15","rest":35},{"slug":"plank-with-arm-reach","series":3,"reps":"8–10 por lado","rest":30}]},{"day":9,"protocol":"PROTOCOLO HIIT TÁCTICO","duration":32,"type":"HIIT","difficulty":3,"brief":"Circuito más largo e intenso que combina piernas, empuje, tirón y cardio.","exercises":[{"slug":"jumping-jacks","series":4,"reps":"30–35 s","rest":20},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":30},{"slug":"diamond-push-up","series":3,"reps":"6–8","rest":35},{"slug":"burpee","series":4,"reps":"8–10","rest":30},{"slug":"mountain-climbers","series":4,"reps":"20–25 por pierna","rest":20}]},{"day":10,"protocol":"PROTOCOLO BARRA INTERMEDIO","duration":38,"type":"FUERZA","difficulty":3,"brief":"Refuerzo de tirón y agarre en barra combinado con fuerza de cuerpo completo.","exercises":[{"slug":"dead-hang","series":3,"reps":"25–35 s","rest":45},{"slug":"inverted-row","series":4,"reps":"8–10","rest":45},{"slug":"negative-pull-up","series":3,"reps":"3–5","rest":60},{"slug":"push-up","series":3,"reps":"10–12","rest":40},{"slug":"bodyweight-squat","series":3,"reps":"15","rest":40},{"slug":"hanging-knee-raise","series":3,"reps":"8–10","rest":40}]},{"day":11,"protocol":"PROTOCOLO PIERNAS & CARDIO","duration":35,"type":"HIIT","difficulty":4,"brief":"Enfoque en piernas con cardio de por medio para exigir resistencia.","exercises":[{"slug":"bodyweight-squat","series":3,"reps":"15–20","rest":40},{"slug":"alternating-reverse-lunge","series":3,"reps":"10–12 por pierna","rest":40},{"slug":"jump-squat","series":3,"reps":"10","rest":35},{"slug":"push-up","series":3,"reps":"10–12","rest":35},{"slug":"glute-bridge","series":3,"reps":"15","rest":30},{"slug":"high-knees","series":3,"reps":"30–40 s","rest":30}]},{"day":12,"protocol":"PROTOCOLO SUPERIOR & CORE","duration":38,"type":"FUERZA","difficulty":4,"brief":"Volumen alto en tren superior y core en un mismo bloque.","exercises":[{"slug":"push-up","series":4,"reps":"10–12","rest":45},{"slug":"diamond-push-up","series":3,"reps":"6–8","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"plank-to-push-up","series":3,"reps":"8–10","rest":35},{"slug":"dead-bug","series":3,"reps":"12 por lado","rest":30},{"slug":"hollow-body-hold","series":3,"reps":"25–30 s","rest":40}]},{"day":13,"protocol":"PROTOCOLO EMOM TÁCTICO","duration":30,"type":"MIXTO","difficulty":4,"brief":"Un ejercicio distinto cada minuto exacto: densidad de trabajo full body.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"12 por minuto","rest":0},{"slug":"push-up","series":4,"reps":"8–10 por minuto","rest":0},{"slug":"inverted-row","series":4,"reps":"8 por minuto","rest":0},{"slug":"alternating-reverse-lunge","series":4,"reps":"8 por pierna por minuto","rest":0},{"slug":"mountain-climbers","series":4,"reps":"20 por pierna por minuto","rest":0},{"slug":"front-plank","series":4,"reps":"30–40 s por minuto","rest":0}]},{"day":14,"protocol":"PROTOCOLO CORE & MOVILIDAD","duration":32,"type":"MIXTO","difficulty":3,"brief":"Refuerzo profundo de la zona media con cardio ligero de por medio.","exercises":[{"slug":"lateral-step-march","series":3,"reps":"40 s","rest":20},{"slug":"bird-dog","series":3,"reps":"10–12 por lado","rest":30},{"slug":"glute-bridge","series":3,"reps":"15","rest":30},{"slug":"side-plank","series":3,"reps":"25–30 s por lado","rest":30},{"slug":"dead-bug","series":3,"reps":"12 por lado","rest":25},{"slug":"superman","series":3,"reps":"12–15","rest":30}]},{"day":15,"protocol":"PROTOCOLO FUERZA AVANZADA","duration":42,"type":"FUERZA","difficulty":4,"brief":"Variantes más exigentes de los mismos movimientos con mayor volumen.","exercises":[{"slug":"assisted-bulgarian-split-squat","series":4,"reps":"10–12 por pierna","rest":50},{"slug":"assisted-pistol-squat","series":3,"reps":"5–6 por pierna","rest":50},{"slug":"push-up","series":4,"reps":"12–15","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":35},{"slug":"hollow-body-hold","series":3,"reps":"30–35 s","rest":40}]},{"day":16,"protocol":"PROTOCOLO HIIT AVANZADO","duration":38,"type":"HIIT","difficulty":5,"brief":"El circuito más intenso hasta ahora: máximo volumen con buena técnica.","exercises":[{"slug":"burpee","series":4,"reps":"10–12","rest":30},{"slug":"jump-squat","series":4,"reps":"10–12","rest":30},{"slug":"push-up","series":4,"reps":"12–15","rest":30},{"slug":"mountain-climbers","series":4,"reps":"25–30 por pierna","rest":25},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":30},{"slug":"plank-to-push-up","series":4,"reps":"10–12","rest":25}]},{"day":17,"protocol":"PROTOCOLO BARRA AVANZADO","duration":40,"type":"FUERZA","difficulty":4,"brief":"Consolidación de fuerza de tirón en barra junto con trabajo complementario.","exercises":[{"slug":"dead-hang","series":3,"reps":"30–40 s","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":50},{"slug":"negative-pull-up","series":4,"reps":"4–5","rest":60},{"slug":"diamond-push-up","series":3,"reps":"8–10","rest":45},{"slug":"bodyweight-squat","series":3,"reps":"15–20","rest":40},{"slug":"hanging-knee-raise","series":3,"reps":"10–12","rest":45}]},{"day":18,"protocol":"PROTOCOLO CIRCUITO MIXTO","duration":38,"type":"MIXTO","difficulty":4,"brief":"Fuerza y cardio en un solo circuito continuo de alto volumen.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"15","rest":20},{"slug":"push-up","series":4,"reps":"10–12","rest":20},{"slug":"inverted-row","series":4,"reps":"10","rest":20},{"slug":"alternating-reverse-lunge","series":4,"reps":"10 por pierna","rest":20},{"slug":"shoulder-tap-plank","series":3,"reps":"10 por lado","rest":20},{"slug":"jumping-jacks","series":4,"reps":"30 s","rest":20}]},{"day":19,"protocol":"PROTOCOLO MISIÓN LARGA","duration":45,"type":"MIXTO","difficulty":4,"brief":"La sesión más larga del programa, con más repeticiones en cada movimiento.","exercises":[{"slug":"bodyweight-squat","series":4,"reps":"20","rest":45},{"slug":"alternating-reverse-lunge","series":3,"reps":"12 por pierna","rest":45},{"slug":"push-up","series":4,"reps":"12–15","rest":45},{"slug":"inverted-row","series":4,"reps":"10–12","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":40},{"slug":"superman","series":3,"reps":"12–15","rest":40},{"slug":"front-plank","series":3,"reps":"40–50 s","rest":40}]},{"day":20,"protocol":"PROTOCOLO ISOMÉTRICO","duration":38,"type":"FUERZA","difficulty":5,"brief":"Resistencia muscular a base de posiciones estáticas sostenidas.","exercises":[{"slug":"wall-sit","series":3,"reps":"40–50 s","rest":45},{"slug":"glute-bridge","series":3,"reps":"15–20","rest":40},{"slug":"front-plank","series":3,"reps":"40–50 s","rest":45},{"slug":"side-plank","series":3,"reps":"30–35 s por lado","rest":45},{"slug":"hollow-body-hold","series":3,"reps":"30–40 s","rest":45},{"slug":"shoulder-tap-plank","series":3,"reps":"12 por lado","rest":45}]},{"day":21,"protocol":"PROTOCOLO PRUEBA FINAL","duration":45,"type":"MIXTO","difficulty":5,"brief":"Cierre del programa: circuito completo a máximo rendimiento para medir tu evolución.","exercises":[{"slug":"bodyweight-squat","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"push-up","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"inverted-row","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"alternating-reverse-lunge","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"dead-hang","series":1,"reps":"Máx tiempo","rest":60},{"slug":"burpee","series":1,"reps":"Máx repeticiones en 60 s","rest":60},{"slug":"hollow-body-hold","series":3,"reps":"30 s por ronda","rest":45}]}]};
+
+  // ---- Programa GYM: mismos 21 días, mezclando ejercicios con equipo y calistenia ----
+  var GYM_DAYS = [
+    {day:1,protocol:"FUERZA TOTAL I",duration:30,type:"FUERZA",difficulty:1,brief:"Tu primer día en el gym: técnica de sentadilla goblet, empuje de pecho y remo para sentar las bases.",exercises:[
+      {slug:"dumbbell-goblet-squat",series:3,reps:"12",rest:45},{slug:"incline-machine-press",series:3,reps:"10",rest:45},
+      {slug:"seated-cable-row",series:3,reps:"10",rest:45},{slug:"front-plank",series:3,reps:"20–30 s",rest:40}]},
+    {day:2,protocol:"TREN SUPERIOR LIGERO",duration:28,type:"MIXTO",difficulty:1,brief:"Trabajo ligero de tren superior y activación de core para moverte sin cargar de más.",exercises:[
+      {slug:"machine-reverse-fly",series:3,reps:"12",rest:40},{slug:"hammer-curls",series:3,reps:"10",rest:40},
+      {slug:"push-up",series:3,reps:"8–10",rest:40},{slug:"dead-bug",series:3,reps:"10 por lado",rest:30}]},
+    {day:3,protocol:"PIERNA · MÁQUINAS",duration:30,type:"FUERZA",difficulty:2,brief:"Pierna con máquinas: aprende el patrón antes de sumar peso libre.",exercises:[
+      {slug:"hack-squat",series:3,reps:"10",rest:45},{slug:"leg-extension",series:3,reps:"12",rest:40},
+      {slug:"lying-leg-curl",series:3,reps:"12",rest:40},{slug:"glute-bridge",series:3,reps:"15",rest:35}]},
+    {day:4,protocol:"METABÓLICO KETTLEBELL",duration:25,type:"HIIT",difficulty:2,brief:"Circuito corto con kettlebell para subir pulsaciones sin perder la forma.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"high-knees",series:4,reps:"30 s",rest:20},
+      {slug:"jumping-jacks",series:4,reps:"20–25",rest:20},{slug:"crunch",series:4,reps:"15",rest:20}]},
+    {day:5,protocol:"EMPUJE · PECHO Y TRÍCEPS",duration:32,type:"FUERZA",difficulty:2,brief:"Empuje de pecho y tríceps con carga progresiva en barra y máquina.",exercises:[
+      {slug:"barbell-bench-press",series:3,reps:"8–10",rest:60},{slug:"incline-machine-press",series:3,reps:"10",rest:50},
+      {slug:"cable-tricep-pushdown",series:3,reps:"12",rest:40},{slug:"front-plank",series:3,reps:"30 s",rest:35}]},
+    {day:6,protocol:"CIRCUITO FUNCIONAL",duration:32,type:"HIIT",difficulty:3,brief:"Circuito funcional que mezcla kettlebell, salto y ejercicios con tu propio peso.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"15",rest:20},{slug:"jump-squat",series:4,reps:"8–10",rest:25},
+      {slug:"push-up",series:3,reps:"8–10",rest:30},{slug:"mountain-climbers",series:4,reps:"20 por pierna",rest:20},
+      {slug:"goblet-squat-kettlebell",series:3,reps:"10",rest:30}]},
+    {day:7,protocol:"CONTROL Y ESTABILIDAD",duration:28,type:"MIXTO",difficulty:2,brief:"Control y estabilidad: trabajo unilateral y core antes de subir la intensidad.",exercises:[
+      {slug:"single-arm-dumbbell-row",series:3,reps:"10 por lado",rest:40},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:35},
+      {slug:"bird-dog",series:3,reps:"10 por lado",rest:30},{slug:"side-plank",series:2,reps:"20–25 s por lado",rest:35},
+      {slug:"hollow-body-hold",series:3,reps:"20–25 s",rest:35}]},
+    {day:8,protocol:"TIRÓN · ESPALDA Y BÍCEPS",duration:38,type:"FUERZA",difficulty:3,brief:"Día de tirón: espalda y bíceps con máquinas y polea.",exercises:[
+      {slug:"lat-pulldown",series:4,reps:"10",rest:50},{slug:"seated-cable-row",series:4,reps:"10",rest:50},
+      {slug:"hammer-curls",series:3,reps:"10",rest:40},{slug:"high-cable-curl",series:3,reps:"10",rest:40},
+      {slug:"hanging-knee-raise",series:3,reps:"8–10",rest:40}]},
+    {day:9,protocol:"CIRCUITO TÁCTICO",duration:32,type:"HIIT",difficulty:3,brief:"Circuito que combina fuerza explosiva con kettlebell y cardio corporal.",exercises:[
+      {slug:"kettlebell-push-press",series:4,reps:"8",rest:30},{slug:"burpee",series:4,reps:"8–10",rest:30},
+      {slug:"mountain-climbers",series:4,reps:"20–25 por pierna",rest:20},{slug:"goblet-squat-kettlebell",series:3,reps:"10",rest:30},
+      {slug:"plank-to-push-up",series:3,reps:"8",rest:30}]},
+    {day:10,protocol:"FUERZA TOTAL II · PIERNA PESADA",duration:38,type:"FUERZA",difficulty:3,brief:"Pierna pesada con barra y máquinas para construir base de fuerza.",exercises:[
+      {slug:"barbell-back-squat",series:4,reps:"8",rest:60},{slug:"hack-squat",series:3,reps:"10",rest:50},
+      {slug:"lying-leg-curl",series:3,reps:"12",rest:40},{slug:"glute-kickback-machine",series:3,reps:"12 por lado",rest:35},
+      {slug:"hollow-body-hold",series:3,reps:"25–30 s",rest:35}]},
+    {day:11,protocol:"CARDIO CON CARGA",duration:35,type:"HIIT",difficulty:4,brief:"Cardio con carga: kettlebell y salto para elevar el gasto calórico.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"18",rest:20},{slug:"jump-squat",series:3,reps:"10",rest:30},
+      {slug:"push-up",series:3,reps:"10–12",rest:30},{slug:"high-knees",series:3,reps:"30–40 s",rest:25},
+      {slug:"dumbbell-goblet-squat",series:3,reps:"12",rest:30}]},
+    {day:12,protocol:"SUPERIOR COMPLETO",duration:38,type:"FUERZA",difficulty:4,brief:"Tren superior completo: pecho, hombro y tríceps con más volumen.",exercises:[
+      {slug:"barbell-bench-press",series:4,reps:"8",rest:55},{slug:"pec-deck-fly",series:3,reps:"12",rest:40},
+      {slug:"overhead-cable-extension",series:3,reps:"12",rest:40},{slug:"dumbbell-lateral-raise",series:3,reps:"12",rest:35},
+      {slug:"plank-to-push-up",series:3,reps:"8–10",rest:35}]},
+    {day:13,protocol:"CIRCUITO EMOM",duration:30,type:"MIXTO",difficulty:4,brief:"Circuito EMOM: un ejercicio distinto cada minuto exacto.",exercises:[
+      {slug:"dumbbell-goblet-squat",series:4,reps:"10 por minuto",rest:0},{slug:"push-up",series:4,reps:"8–10 por minuto",rest:0},
+      {slug:"single-arm-dumbbell-row",series:4,reps:"8 por lado por minuto",rest:0},{slug:"kettlebell-swing",series:4,reps:"12 por minuto",rest:0},
+      {slug:"mountain-climbers",series:4,reps:"20 por pierna por minuto",rest:0}]},
+    {day:14,protocol:"TIRÓN Y CORE",duration:32,type:"MIXTO",difficulty:3,brief:"Tirón y core profundo para cerrar la semana.",exercises:[
+      {slug:"lat-pulldown",series:3,reps:"10",rest:45},{slug:"seated-cable-row",series:3,reps:"10",rest:45},
+      {slug:"cable-woodchop",series:3,reps:"10 por lado",rest:30},{slug:"dead-bug",series:3,reps:"12 por lado",rest:25},
+      {slug:"superman",series:3,reps:"12–15",rest:30}]},
+    {day:15,protocol:"FUERZA MÁXIMA · PIERNA",duration:42,type:"FUERZA",difficulty:4,brief:"Fuerza máxima de pierna: sentadilla y peso muerto con barra.",exercises:[
+      {slug:"barbell-back-squat",series:4,reps:"6",rest:70},{slug:"barbell-deadlift",series:3,reps:"6",rest:70},
+      {slug:"leg-extension",series:3,reps:"12",rest:45},{slug:"lying-leg-curl",series:3,reps:"12",rest:45},
+      {slug:"hollow-body-hold",series:3,reps:"30–35 s",rest:40}]},
+    {day:16,protocol:"MÁXIMA INTENSIDAD",duration:38,type:"HIIT",difficulty:5,brief:"El circuito más intenso hasta ahora: metabólico puro.",exercises:[
+      {slug:"kettlebell-swing",series:4,reps:"20",rest:25},{slug:"burpee",series:4,reps:"10–12",rest:30},
+      {slug:"jump-squat",series:4,reps:"10–12",rest:30},{slug:"mountain-climbers",series:4,reps:"25–30 por pierna",rest:25},
+      {slug:"goblet-squat-kettlebell",series:3,reps:"12",rest:30}]},
+    {day:17,protocol:"EMPUJE-TIRÓN AVANZADO",duration:40,type:"FUERZA",difficulty:4,brief:"Empuje y tirón avanzado en el mismo bloque de entreno.",exercises:[
+      {slug:"barbell-bench-press",series:4,reps:"8",rest:55},{slug:"lat-pulldown",series:4,reps:"10",rest:50},
+      {slug:"machine-bicep-curl",series:3,reps:"10",rest:40},{slug:"cable-tricep-pushdown",series:3,reps:"12",rest:40},
+      {slug:"hanging-knee-raise",series:3,reps:"10–12",rest:45}]},
+    {day:18,protocol:"CIRCUITO COMPLETO",duration:38,type:"MIXTO",difficulty:4,brief:"Circuito completo que recorre todo el cuerpo sin pausas largas.",exercises:[
+      {slug:"dumbbell-goblet-squat",series:4,reps:"12",rest:25},{slug:"seated-cable-row",series:4,reps:"10",rest:25},
+      {slug:"incline-machine-press",series:4,reps:"10",rest:25},{slug:"kettlebell-swing",series:4,reps:"15",rest:20},
+      {slug:"shoulder-tap-plank",series:3,reps:"10 por lado",rest:20}]},
+    {day:19,protocol:"SESIÓN LARGA",duration:45,type:"MIXTO",difficulty:4,brief:"La sesión más larga: fuerza de cuerpo completo con más series.",exercises:[
+      {slug:"barbell-back-squat",series:4,reps:"10",rest:60},{slug:"barbell-bench-press",series:4,reps:"10",rest:60},
+      {slug:"lat-pulldown",series:4,reps:"10",rest:55},{slug:"kettlebell-romanian-deadlift",series:3,reps:"10",rest:50},
+      {slug:"superman",series:3,reps:"12–15",rest:40},{slug:"front-plank",series:3,reps:"40–50 s",rest:40}]},
+    {day:20,protocol:"ISOMÉTRICO Y FUERZA MÁXIMA",duration:38,type:"FUERZA",difficulty:5,brief:"Fuerza máxima e isometría para cerrar con control.",exercises:[
+      {slug:"barbell-deadlift",series:3,reps:"5",rest:75},{slug:"hack-squat",series:3,reps:"10",rest:50},
+      {slug:"wall-sit",series:3,reps:"40–50 s",rest:45},{slug:"front-plank",series:3,reps:"40–50 s",rest:45},
+      {slug:"hollow-body-hold",series:3,reps:"30–40 s",rest:45}]},
+    {day:21,protocol:"PRUEBA FINAL",duration:45,type:"MIXTO",difficulty:5,brief:"Cierre del programa: prueba final a máximo rendimiento contra el reloj.",exercises:[
+      {slug:"kettlebell-swing",series:1,reps:"Máx repeticiones en 60 s",rest:60},{slug:"push-up",series:1,reps:"Máx repeticiones en 60 s",rest:60},
+      {slug:"seated-cable-row",series:1,reps:"Máx repeticiones en 60 s",rest:60},{slug:"single-arm-dumbbell-row",series:1,reps:"Máx repeticiones en 60 s por lado",rest:60},
+      {slug:"dead-hang",series:1,reps:"Máx tiempo",rest:60},{slug:"burpee",series:1,reps:"Máx repeticiones en 60 s",rest:60},
+      {slug:"hollow-body-hold",series:3,reps:"30 s por ronda",rest:45}]}
+  ];
 
   var STORAGE_KEY = "protocolo21:v1";
   var TIP_KEY = "protocolo21:tipSeen";
@@ -483,6 +653,15 @@
     if(!s) s = { name:"Recluta", progress:{} };
     if(!s.profile) s.profile = null;
     if(!s.weightLog) s.weightLog = [];
+    if(!s.progress) s.progress = {};
+    // migración: versiones previas guardaban progress[dayNum] plano (solo calistenia)
+    if(!s.progress.calistenia && !s.progress.gym){
+      s.progress = { calistenia: s.progress, gym: {} };
+    }
+    if(!s.mode){
+      // usuarios que ya tenían ficha antes de que existiera el modo GYM siguen en calistenia
+      s.mode = s.profile ? "calistenia" : null;
+    }
     return s;
   }
   function saveState(){
@@ -490,12 +669,16 @@
   }
   var state = loadState();
 
+  function activeDays(){
+    return state.mode === "gym" ? GYM_DAYS : DATA.days;
+  }
   function dayProgress(dayNum){
-    var arr = state.progress[dayNum];
-    var day = DATA.days[dayNum-1];
+    var bucket = state.progress[state.mode] || (state.progress[state.mode] = {});
+    var arr = bucket[dayNum];
+    var day = activeDays()[dayNum-1];
     if(!arr || arr.length !== day.exercises.length){
       arr = day.exercises.map(function(){ return false; });
-      state.progress[dayNum] = arr;
+      bucket[dayNum] = arr;
     }
     return arr;
   }
@@ -516,7 +699,7 @@
     var seg = document.getElementById("segbar");
     seg.innerHTML = "";
     var doneCount = 0, minutes = 0;
-    DATA.days.forEach(function(d){
+    activeDays().forEach(function(d){
       var done = isDayDone(d.day);
       if(done){ doneCount++; minutes += d.duration; }
       var i = document.createElement("i");
@@ -526,7 +709,7 @@
     });
     document.getElementById("statDone").textContent = doneCount;
     document.getElementById("statMin").textContent = minutes;
-    document.getElementById("operatorName").textContent = state.name || "Recluta";
+    document.getElementById("operatorName").textContent = state.name || (state.mode === "gym" ? "Atleta" : "Recluta");
   }
 
   function diffDots(n){
@@ -538,14 +721,18 @@
   function renderDayList(){
     var list = document.getElementById("dayList");
     list.innerHTML = "";
-    DATA.days.forEach(function(d){
+    var modern = state.mode === "gym";
+    activeDays().forEach(function(d){
       var done = isDayDone(d.day);
       var card = document.createElement("button");
       card.type = "button";
       card.className = "day-card" + (done ? " done" : "");
       card.setAttribute("aria-label", "Día " + d.day + ", " + d.protocol);
+      var mediaHtml = modern
+        ? '<span class="day-card-grad grad-' + d.type.toLowerCase() + '"></span>'
+        : '<img class="day-card-img" src="' + TYPE_IMAGE[d.type] + '" alt="" loading="lazy">';
       card.innerHTML =
-        '<img class="day-card-img" src="' + TYPE_IMAGE[d.type] + '" alt="" loading="lazy">' +
+        mediaHtml +
         '<span class="day-card-scrim"></span>' +
         '<span class="type-bar" style="background:' + TYPE_COLOR[d.type] + '"></span>' +
         '<span class="body">' +
@@ -567,7 +754,7 @@
   var currentDay = null;
 
   function renderExerciseList(dayNum){
-    var day = DATA.days[dayNum-1];
+    var day = activeDays()[dayNum-1];
     var arr = dayProgress(dayNum);
     var wrap = document.getElementById("exList");
     wrap.innerHTML = "";
@@ -604,7 +791,7 @@
 
   function openDay(dayNum){
     currentDay = dayNum;
-    var day = DATA.days[dayNum-1];
+    var day = activeDays()[dayNum-1];
     document.getElementById("sheetDayNum").textContent = "DÍA " + String(dayNum).padStart(2,"0");
     document.getElementById("sheetProtocol").textContent = day.protocol;
     document.getElementById("sheetBrief").textContent = day.brief;
@@ -848,7 +1035,8 @@
       '<button class="btn primary" id="onbDone" type="button">Entrar al programa</button>';
     document.getElementById("onbDone").addEventListener("click", function(){
       closeOnboarding();
-      renderProfile(); renderNutrition(); updateProfileDot();
+      if(!state.mode){ openModeSelect(); }
+      else { enterApp(); }
     });
   }
   function openOnboarding(){
@@ -869,6 +1057,44 @@
     var sheet = document.getElementById("onboardingSheet");
     sheet.classList.remove("open");
     sheet.setAttribute("aria-hidden","true");
+  }
+
+  // ---- selector de modo (calistenia militar vs gym) ----
+  function openModeSelect(){
+    var sheet = document.getElementById("modeSelectSheet");
+    sheet.classList.add("open");
+    sheet.setAttribute("aria-hidden","false");
+  }
+  function closeModeSelect(){
+    var sheet = document.getElementById("modeSelectSheet");
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden","true");
+  }
+  function chooseMode(mode){
+    state.mode = mode;
+    saveState();
+    closeModeSelect();
+    enterApp();
+  }
+  document.getElementById("modeCardCalistenia").addEventListener("click", function(){ chooseMode("calistenia"); });
+  document.getElementById("modeCardGym").addEventListener("click", function(){ chooseMode("gym"); });
+
+  function applyModeChrome(){
+    if(!state.mode) return; // sin modo elegido aún: se queda con el skin moderno por defecto
+    var modern = state.mode === "gym";
+    document.documentElement.setAttribute("data-mode", modern ? "modern" : "tactical");
+    document.getElementById("brandSub").textContent = modern ? "Rutina de gym" : "Calistenia de campo";
+    document.getElementById("navHomeLabel").textContent = modern ? "Rutina" : "Misión";
+    document.title = modern ? "Protocolo 21 · GYM" : "Protocolo 21";
+  }
+  function enterApp(){
+    applyModeChrome();
+    renderTopStats();
+    renderDayList();
+    renderProfile();
+    renderNutrition();
+    updateProfileDot();
+    switchTab("home");
   }
 
   // ---- weigh-in ----
@@ -921,10 +1147,16 @@
         '<div class="target-tile"><div class="num">' + t.protein + 'g</div><div class="lbl">Proteína / día</div></div>' +
       '</div>' +
       '<div class="link-row" id="openLibraryBtn"><span>Biblioteca de ejercicios</span><span>&rarr;</span></div>' +
-      '<div class="link-row" id="editProfileBtn"><span>Editar datos de perfil</span><span>&rarr;</span></div>';
+      '<div class="link-row" id="editProfileBtn"><span>Editar datos de perfil</span><span>&rarr;</span></div>' +
+      '<div class="link-row" id="switchModeBtn"><span>Cambiar a ' + (state.mode === "gym" ? "Calistenia Militar" : "GYM") + '</span><span>&rarr;</span></div>';
     var wb = document.getElementById("doWeighinBtn"); if(wb) wb.addEventListener("click", openWeighin);
     document.getElementById("openLibraryBtn").addEventListener("click", openLibrary);
     document.getElementById("editProfileBtn").addEventListener("click", openOnboarding);
+    document.getElementById("switchModeBtn").addEventListener("click", function(){
+      state.mode = state.mode === "gym" ? "calistenia" : "gym";
+      saveState();
+      enterApp();
+    });
     updateProfileDot();
   }
 
@@ -942,9 +1174,10 @@
     } else {
       targetsHtml = '<div class="empty-note">Crea tu ficha de operador en Perfil para ver tus objetivos de calorías y proteína.</div>';
     }
+    var modernNutri = state.mode === "gym";
     el.innerHTML =
-      '<h2 class="section-title">Nutrición de Campo</h2>' +
-      '<p class="section-sub">Principios de nutrición deportiva, no dieta milagro</p>' +
+      '<h2 class="section-title">' + (modernNutri ? "Nutrición Inteligente" : "Nutrición de Campo") + '</h2>' +
+      '<p class="section-sub">' + (modernNutri ? "Come para rendir, no para restringir" : "Principios de nutrición deportiva, no dieta milagro") + '</p>' +
       '<div class="principle-grid">' +
         '<div class="principle-card"><h4>Proteína en cada comida</h4><p>20–40 g por comida reparte mejor la síntesis muscular que concentrarla en una sola.</p></div>' +
         '<div class="principle-card"><h4>Carbos alrededor del entreno</h4><p>Dan energía antes y ayudan a recuperar el glucógeno después de la sesión.</p></div>' +
@@ -1003,11 +1236,13 @@
 
   // init
   history.replaceState({ view:"home" }, "");
+  applyModeChrome();
   renderTopStats();
   renderDayList();
   initTip();
   updateProfileDot();
   if(!state.profile){ openOnboarding(); }
+  else if(!state.mode){ openModeSelect(); }
 })();
 </script>
 </body>
